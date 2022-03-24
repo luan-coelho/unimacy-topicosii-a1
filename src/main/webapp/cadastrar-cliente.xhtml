@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="author" content="Luan Coêlho" />
+	<title>Cadastro de Cliente</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+
+		<p:panel styleClass="panel" id="panel" header="Cadastro de Cliente"
+			style="width: 400px; margin: auto; margin-top: 5%; color: #FFF;">
+
+			<p:messages closable="true" id="messages" styleClass="p-mr-2"
+				errorStyle="color:red;margin:8px;"
+				warnStyle="color:yellow;margin:8px;"
+				infoStyle="color:green;margin:8px;">
+				<p:autoUpdate />
+			</p:messages>
+
+			<div class="ui-fluid">
+				<div>
+					<p:outputLabel value="CEP: " />
+					<p:inputText pt:data-validate="cep" id="cep"
+						onblur="pesquisacep(this.value);" maxlength="9"
+						value="#{clienteController.cliente.endereco.cep}" />
+				</div>
+
+				<div>
+					<p:outputLabel value="Rua: " />
+					<p:inputText id="rua"
+						value="#{clienteController.cliente.endereco.rua}" />
+				</div>
+
+				<div>
+					<p:outputLabel value="Bairro: " />
+					<p:inputText id="bairro"
+						value="#{clienteController.cliente.endereco.bairro}" />
+				</div>
+
+				<div>
+					<p:outputLabel value="Cidade: " />
+					<p:inputText id="cidade"
+						value="#{clienteController.cliente.endereco.cidade.nome}" />
+				</div>
+
+				<div>
+					<p:outputLabel value="Estado: " />
+					<p:inputText id="uf"
+						value="#{clienteController.cliente.endereco.cidade.estado}" />
+				</div>
+
+			</div>
+			<f:facet name="footer">
+				<div class="p-d-flex p-d-flex p-jc-center">
+					<div>
+						<p:commandButton value="Pesquisar" actionListener="#{clienteController.enviar}"/>
+					</div>
+				</div>
+			</f:facet>
+		</p:panel>
+	</h:form>
+
+	<h:outputScript library="js" name="masks.js" />
+	<h:outputScript library="js" name="find-cep.js" />
+</h:body>
+</html>
