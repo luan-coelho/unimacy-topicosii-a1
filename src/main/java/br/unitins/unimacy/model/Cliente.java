@@ -1,13 +1,32 @@
 package br.unitins.unimacy.model;
 
-public class Cliente {
-	private Endereco endereco;
-	
-	public Endereco getEndereco() {
-		return endereco;
+import javax.persistence.Entity;
+
+@Entity
+public class Cliente extends Pessoa {
+
+	private static final long serialVersionUID = 3809727639444385556L;
+
+	private Pessoa pessoa;
+
+	public Cliente() {
+		// TODO Auto-generated constructor stub
 	}
-	
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+
+	public Cliente(Pessoa pessoa) {
+		super();
+		this.pessoa = pessoa;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

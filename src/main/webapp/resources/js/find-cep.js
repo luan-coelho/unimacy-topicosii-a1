@@ -1,5 +1,4 @@
-function limpa_formulário_cep() {
-	//Limpa valores do formulário de cep.
+function limpa_formulario_cep() {
 	document.getElementById('form:rua').value = ("");
 	document.getElementById('form:bairro').value = ("");
 	document.getElementById('form:cidade').value = ("");
@@ -13,11 +12,10 @@ function meu_callback(conteudo) {
 		document.getElementById('form:bairro').value = (conteudo.bairro);
 		document.getElementById('form:cidade').value = (conteudo.localidade);
 		document.getElementById('form:uf').value = (conteudo.uf);
-	} //end if.
+	} 
 	else {
 		//CEP não Encontrado.
-		limpa_formulário_cep();
-		alert("CEP não encontrado.");
+		limpa_formulario_cep();
 	}
 }
 
@@ -53,24 +51,11 @@ function pesquisacep(valor) {
 		} //end if.
 		else {
 			//cep é inválido.
-			limpa_formulário_cep();
-			alert("Formato de CEP inválido.");
+			limpa_formulario_cep();
 		}
 	} //end if.
 	else {
 		//cep sem valor, limpa formulário.
-		limpa_formulário_cep();
+		limpa_formulario_cep();
 	}
 };
-
-function mascaraCEP(obj,prox) {
-    switch (obj.value.length) {
-
-	case 6:
-		obj.value = obj.value + "-";
-        break;  
-	case 9:
-        document.getElementById(prox).focus();
-        break;
-    }
-}

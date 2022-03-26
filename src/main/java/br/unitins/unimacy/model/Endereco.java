@@ -10,12 +10,14 @@ public class Endereco {
 	private String complemento;
 	private String cep;
 	private Cidade cidade;
-	
+	private Estado estado;
+
 	public Endereco() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Endereco(Integer id, String rua, String numero, String bairro, String complemento, String cep) {
+	public Endereco(Integer id, String rua, String numero, String bairro, String complemento, String cep, Cidade cidade,
+			Estado estado) {
 		super();
 		this.id = id;
 		this.rua = rua;
@@ -23,6 +25,8 @@ public class Endereco {
 		this.bairro = bairro;
 		this.complemento = complemento;
 		this.cep = cep;
+		this.cidade = cidade;
+		this.estado = estado;
 	}
 
 	public Integer getId() {
@@ -72,13 +76,21 @@ public class Endereco {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
+
 	public Cidade getCidade() {
 		return cidade;
 	}
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -97,5 +109,5 @@ public class Endereco {
 		Endereco other = (Endereco) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }
