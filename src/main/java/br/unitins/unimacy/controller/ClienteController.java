@@ -3,7 +3,12 @@ package br.unitins.unimacy.controller;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import br.unitins.unimacy.application.CEPUtil;
+import br.unitins.unimacy.application.Util;
+import br.unitins.unimacy.model.Cidade;
 import br.unitins.unimacy.model.Cliente;
+import br.unitins.unimacy.model.Endereco;
+import br.unitins.unimacy.model.Estado;
 import br.unitins.unimacy.model.PessoaFisica;
 import br.unitins.unimacy.model.PessoaJuridica;
 import br.unitins.unimacy.repository.ClienteRepository;
@@ -30,6 +35,8 @@ public class ClienteController extends Controller<Cliente> {
 			}else {
 				entity.setPessoa(new PessoaFisica());
 			}
+			
+			entity.setEndereco(new Endereco(new Cidade(new Estado())));
 		}
 
 		return entity;
@@ -61,6 +68,16 @@ public class ClienteController extends Controller<Cliente> {
 			isFornecedor = false;
 		}
 		super.limpar();
+	}
+	
+	public void buscarCep() {
+		try {
+			System.out.println(entity.getEndereco().getCep());
+			entity.setEndereco(CEPUtil.findCep(CEPUtil.removeMascaraCep(entity.getEndereco().getCep())));
+		} catch (Exception e) {
+			Util.addErrorMessage("Erro ao procurar CEP");
+			e.printStackTrace();
+		}
 	}
 
 }

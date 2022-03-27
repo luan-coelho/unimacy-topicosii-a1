@@ -1,27 +1,28 @@
 package br.unitins.unimacy.model;
 
-public class Cidade {
-	private Integer id;
+import javax.persistence.Entity;
+
+@Entity
+public class Cidade extends DefaultEntity {
+
+	private static final long serialVersionUID = -7088102744416075469L;
+
 	private String nome;
-	private String estado;
+	private Estado estado;
 
 	public Cidade() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cidade(Integer id, String nome, String estado) {
+	public Cidade(String nome, Estado estado) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.estado = estado;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public Cidade(Estado estado) {
+		super();
+		this.estado = estado;
 	}
 
 	public String getNome() {
@@ -32,11 +33,11 @@ public class Cidade {
 		this.nome = nome;
 	}
 
-	public String getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 

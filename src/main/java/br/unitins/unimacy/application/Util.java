@@ -1,5 +1,6 @@
 package br.unitins.unimacy.application;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.faces.application.FacesMessage;
@@ -31,5 +32,12 @@ public class Util {
 	public static void addInfoMessage(String msg) {
 		addMessage(msg, FacesMessage.SEVERITY_INFO);
 	}
-	
+
+	public static String converteJsonEmString(BufferedReader buffereReader) throws IOException {
+		String resposta, jsonEmString = "";
+		while ((resposta = buffereReader.readLine()) != null) {
+			jsonEmString += resposta;
+		}
+		return jsonEmString;
+	}
 }
