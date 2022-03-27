@@ -38,6 +38,10 @@ public class ClienteController extends Controller<Cliente> {
 				entity.setPessoa(new PessoaJuridica());
 			}else {
 				entity.setPessoa(new PessoaFisica());
+//				if(isFornecedor) {
+//					entity = new Fornecedor();
+//				}
+					
 			}
 			
 			entity.setEndereco(new Endereco(new Cidade(new Estado())));
