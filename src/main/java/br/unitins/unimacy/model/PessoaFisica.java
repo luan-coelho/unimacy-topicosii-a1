@@ -13,7 +13,6 @@ public class PessoaFisica extends Pessoa {
 
 	private String nome;
 	private String sobreNome;
-	
 	private Sexo sexo;
 
 	@CPF(message = "Informe um CPF válido")
@@ -25,7 +24,7 @@ public class PessoaFisica extends Pessoa {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PessoaFisica(String nome, String sobreNome, Sexo sexo, @CPF(message = "Informe um CPF válido") String cpf,
+	public PessoaFisica(String nome, String sobreNome, Sexo sexo, String cpf,
 			String rg, LocalDate dataNascimento) {
 		super();
 		this.nome = nome;
@@ -84,4 +83,9 @@ public class PessoaFisica extends Pessoa {
 		this.sexo = sexo;
 	}
 
+	@Override
+	public String toString() {
+		return "PessoaFisica [nome=" + nome + ", sobreNome=" + sobreNome + ", sexo=" + sexo + ", cpf=" + cpf + ", rg="
+				+ rg + ", dataNascimento=" + dataNascimento + "]";
+	}
 }

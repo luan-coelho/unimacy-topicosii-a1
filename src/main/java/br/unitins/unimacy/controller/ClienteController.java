@@ -3,6 +3,9 @@ package br.unitins.unimacy.controller;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import com.gtbr.exception.ViaCepException;
+import com.gtbr.exception.ViaCepFormatException;
+
 import br.unitins.unimacy.application.CEPUtil;
 import br.unitins.unimacy.application.Util;
 import br.unitins.unimacy.model.Cidade;
@@ -11,6 +14,7 @@ import br.unitins.unimacy.model.Endereco;
 import br.unitins.unimacy.model.Estado;
 import br.unitins.unimacy.model.PessoaFisica;
 import br.unitins.unimacy.model.PessoaJuridica;
+import br.unitins.unimacy.model.Sexo;
 import br.unitins.unimacy.repository.ClienteRepository;
 
 @Named
@@ -42,6 +46,10 @@ public class ClienteController extends Controller<Cliente> {
 		return entity;
 	}
 
+	public Sexo[] getListaSexo() {
+		return Sexo.values();
+	}
+	
 	public boolean getPessoaJuridica() {
 		return isPessoaJuridica;
 	}
@@ -59,7 +67,7 @@ public class ClienteController extends Controller<Cliente> {
 	}
 
 	public void cadastrar() {
-
+		System.out.println(entity.getPessoa().toString());
 	}
 
 	@Override
@@ -72,12 +80,15 @@ public class ClienteController extends Controller<Cliente> {
 	
 	public void buscarCep() {
 		try {
-			System.out.println(entity.getEndereco().getCep());
 			entity.setEndereco(CEPUtil.findCep(CEPUtil.removeMascaraCep(entity.getEndereco().getCep())));
-		} catch (Exception e) {
-			Util.addErrorMessage("Erro ao procurar CEP");
-			e.printStackTrace();
+		} catch (ViaCepException e) {
+			Util.addErrorMessage("Informe um CEP válido");
+		}catch (ViaCepFormatException e) {
+			Util.addErrorMessage("CEP com formato inválido");
+		}catch (Exception e) {
+			Util.addErrorMessage("Falha ao buscar CEP. Informe os dados manualmente");
 		}
+		
 	}
 
 }

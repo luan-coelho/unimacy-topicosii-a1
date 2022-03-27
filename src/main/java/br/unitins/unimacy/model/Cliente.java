@@ -26,7 +26,10 @@ public class Cliente extends Pessoa {
 		this.pessoa = pessoa;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@Override
+	public String toString() {
+		return "Cliente [pessoa=" + pessoa + "]";
 	}
+
+	
 }

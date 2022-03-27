@@ -19,51 +19,36 @@ import br.unitins.unimacy.model.Estado;
 
 public class CEPUtil {
 
-    private static final String viaCepUrl = "https://viacep.com.br/ws/";
-    private static final Gson gson = new Gson();
+	private static final String viaCepUrl = "https://viacep.com.br/ws/";
+	private static final Gson gson = new Gson();
 
-    public static Endereco findCep(String cepString) {
-        CEPUtils.validaCep(cepString);
-        try {
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .connectTimeout(Duration.ofMinutes(1L))
-                    .build();
+	public static Endereco findCep(String cepString) {
+		CEPUtils.validaCep(cepString);
+		try {
+			HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofMinutes(1L)).build();
 
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .GET()
-                    .uri(URI.create(viaCepUrl+cepString+"/json"))
-                    .build();
+			HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(viaCepUrl + cepString + "/json"))
+					.build();
 
-            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+			HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-            EnderecoAux enderecoAux = gson.fromJson(httpResponse.body(), EnderecoAux.class);
-            
-            System.out.println(enderecoAux);
-            
-            return organizarCep(enderecoAux);
+			return organizarCep(gson.fromJson(httpResponse.body(), EnderecoAux.class));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
 
 	class EnderecoAux {
-		 private String cep;
-		    String logradouro;
-		    String bairro;
-		    String localidade;
-		    String uf;
-
-		@Override
-		public String toString() {
-			return "EnderecoAux [cep=" + cep + ", logradouro=" + logradouro + ", bairro=" + bairro + ", localidade="
-					+ localidade + ", uf=" + uf + "]";
-		}
-
+		String cep;
+		String logradouro;
+		String bairro;
+		String localidade;
+		String uf;
 	}
 
 	private static Endereco organizarCep(EnderecoAux aux) {
@@ -80,11 +65,11 @@ public class CEPUtil {
 
 	public static void validaCep(String cep) {
 		if (Objects.isNull(cep) || cep.isEmpty() || cep.isBlank())
-			throw new ViaCepException("O cep informado não pode ser nulo ou vazio");
+			throw new ViaCepException(null);
 		if (cep.length() > 8)
-			throw new ViaCepFormatException("CEP fora do formato, caso esteja com hifen, use o metodo de formatacao");
+			throw new ViaCepFormatException(null);
 		if (cep.length() < 8)
-			throw new ViaCepException("CEP faltando numeros");
+			throw new ViaCepException(null);
 	}
 
 	public static String removeMascaraCep(String cep) {
