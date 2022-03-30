@@ -58,7 +58,8 @@
 							</div>
 							<div class="p-field p-col-12 p-md-6">
 								<p:outputLabel value="Sexo: " />
-								<p:selectOneRadio value="#{clienteController.entity.pessoa.sexo}">
+								<p:selectOneRadio
+									value="#{clienteController.entity.pessoa.sexo}">
 									<f:selectItems var="obj" value="#{clienteController.listaSexo}"
 										itemLabel="#{obj.label}" />
 								</p:selectOneRadio>
@@ -68,16 +69,6 @@
 
 					<h:panelGroup layout="block"
 						rendered="#{clienteController.pessoaJuridica}">
-
-						<div class="p-field p-col-12 p-md-6">
-							<p:outputLabel value="É um fornecedor?" />
-							<p:selectOneRadio id="fornecedor" required="true"
-								value="#{clienteController.isFornecedor}" unselectable="true">
-								<f:selectItem itemLabel="Sim" itemValue="true" />
-								<f:selectItem itemLabel="Não" itemValue="false" />
-								<p:ajax process="@this" update="@form" />
-							</p:selectOneRadio>
-						</div>
 
 						<p:outputLabel value="CNPJ" />
 						<p:inputMask value="#{clienteController.entity.pessoa.cnpj}"
@@ -89,28 +80,6 @@
 						<p:inputText value="#{clienteController.entity.email}" id="email"
 							type="email" />
 					</div>
-
-					<h:panelGroup layout="block"
-						rendered="#{clienteController.isFornecedor == true}">
-
-						<div class="p-field p-col-12 p-md-6">
-							<p:outputLabel for="razao-social" value="Razão Social" />
-							<p:inputText
-								value="#{clienteController.entity.pessoa.razaoSocial}"
-								id="razao-social" type="text" />
-						</div>
-
-						<div class="p-field p-col-12 p-md-6">
-							<p:outputLabel for="nome-fantasia" value="Nome Fantasia" />
-							<p:inputText id="nome-fantasia" type="text" />
-						</div>
-
-						<div class="p-field p-col-12 p-md-6">
-							<p:outputLabel for="insc-estadual" value="Inscrição Estadual" />
-							<p:inputText id="insc-estadual" type="text" />
-						</div>
-					</h:panelGroup>
-
 
 					<h:panelGroup layout="block">
 

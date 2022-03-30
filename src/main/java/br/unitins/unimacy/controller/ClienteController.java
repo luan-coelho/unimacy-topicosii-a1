@@ -22,9 +22,8 @@ import br.unitins.unimacy.repository.ClienteRepository;
 public class ClienteController extends Controller<Cliente> {
 
 	private static final long serialVersionUID = -2587172429280470098L;
-	
+
 	private boolean isPessoaJuridica;
-	private boolean isFornecedor;
 
 	public ClienteController() {
 		super(new ClienteRepository());
@@ -36,14 +35,14 @@ public class ClienteController extends Controller<Cliente> {
 			entity = new Cliente();
 			if (isPessoaJuridica) {
 				entity.setPessoa(new PessoaJuridica());
-			}else {
+			} else {
 				entity.setPessoa(new PessoaFisica());
 //				if(isFornecedor) {
 //					entity = new Fornecedor();
 //				}
-					
+
 			}
-			
+
 			entity.setEndereco(new Endereco(new Cidade(new Estado())));
 		}
 
@@ -53,7 +52,7 @@ public class ClienteController extends Controller<Cliente> {
 	public Sexo[] getListaSexo() {
 		return Sexo.values();
 	}
-	
+
 	public boolean getPessoaJuridica() {
 		return isPessoaJuridica;
 	}
@@ -62,37 +61,26 @@ public class ClienteController extends Controller<Cliente> {
 		this.isPessoaJuridica = isPessoaJuridica;
 	}
 
-	public boolean getIsFornecedor() {
-		return isFornecedor;
-	}
-
-	public void setIsFornecedor(boolean isFornecedor) {
-		this.isFornecedor = isFornecedor;
-	}
-
 	public void cadastrar() {
 		System.out.println(entity.getPessoa().toString());
 	}
 
 	@Override
 	public void limpar() {
-		if(isPessoaJuridica == false) {
-			isFornecedor = false;
-		}
 		super.limpar();
 	}
-	
+
 	public void buscarCep() {
 		try {
 			entity.setEndereco(CEPUtil.findCep(CEPUtil.removeMascaraCep(entity.getEndereco().getCep())));
 		} catch (ViaCepException e) {
 			Util.addErrorMessage("Informe um CEP válido");
-		}catch (ViaCepFormatException e) {
+		} catch (ViaCepFormatException e) {
 			Util.addErrorMessage("CEP com formato inválido");
-		}catch (Exception e) {
-			Util.addErrorMessage("Falha ao buscar CEP. Informe os dados manualmente");
+		} catch (Exception e) {
+			Util.addErrorMessage("Falha ao buscar CEP. Digite os dados");
 		}
-		
+
 	}
 
 }
