@@ -2,8 +2,8 @@ package br.unitins.unimacy.controller;
 
 import java.io.Serializable;
 
-import br.unitins.unimacy.application.RepositoryException;
 import br.unitins.unimacy.application.Util;
+import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.DefaultEntity;
 import br.unitins.unimacy.repository.Repository;
 

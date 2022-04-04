@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Unimacy:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Unimacy</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Unimacy-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Unimacy:war exploded" />
+    </root>
+  </artifact>
+</component>

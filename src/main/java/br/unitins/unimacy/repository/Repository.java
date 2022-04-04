@@ -5,7 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import javax.persistence.EntityManager;
 
 import br.unitins.unimacy.application.JPAUtil;
-import br.unitins.unimacy.application.RepositoryException;
+import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.DefaultEntity;
 
 public class Repository<T extends DefaultEntity> {

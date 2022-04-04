@@ -11,53 +11,31 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="author" content="Luan Coêlho" />
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+		crossorigin="anonymous"/>
 	<h:outputStylesheet library="css" name="template.css" />
 
 	<ui:insert name="head">
-
+	
 	</ui:insert>
 </h:head>
 
 <h:body>
 	<h:form id="form" styleClass="form-menu-bar">
-		<p:menubar id="menubar" autoDisplay="false">
-			<p:submenu label="Produtos" icon="pi pi-fw pi-box">
-				<p:submenu label="New" icon="pi pi-fw pi-plus">
-					<p:menuitem value="Bookmark" icon="pi pi-fw pi-bookmark" />
-					<p:menuitem value="Video" icon="pi pi-fw pi-video" />
-				</p:submenu>
-				<p:menuitem value="Delete" icon="pi pi-fw pi-trash" />
-				<p:divider />
-				<p:menuitem value="Export" icon="pi pi-fw pi-external-link" />
-			</p:submenu>
-
-			<p:submenu label="Clientes" icon="pi pi-fw pi-user">
-				<p:menuitem value="Cadastrar" icon="pi pi-fw pi-user-plus" />
-				<p:menuitem value="Gerenciar" icon="pi pi-fw pi-user-minus" />
-			</p:submenu>
-
-			<p:submenu label="Serviços" icon="pi pi-fw pi-settings">
-				<p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-					<p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus" />
-					<p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus" />
-				</p:submenu>
-				<p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
-					<p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus" />
-				</p:submenu>
-			</p:submenu>
-
-			<p:divider layout="vertical" />
-
-			<f:facet name="options">
-				<p:commandButton value="Encerrar Sessão" icon="pi pi-fw pi-sign-out" />
-			</f:facet>
-
-		</p:menubar>
-
+		
+		
+		
 		<ui:insert name="conteudo">
 
 		</ui:insert>
 	</h:form>
 
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
 </h:body>
 </html>

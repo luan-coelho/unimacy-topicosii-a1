@@ -6,7 +6,7 @@ import javax.inject.Named;
 import com.gtbr.exception.ViaCepException;
 import com.gtbr.exception.ViaCepFormatException;
 
-import br.unitins.unimacy.application.CEPUtil;
+import br.unitins.unimacy.application.ApiCep;
 import br.unitins.unimacy.application.Util;
 import br.unitins.unimacy.model.Cidade;
 import br.unitins.unimacy.model.Cliente;
@@ -37,10 +37,6 @@ public class ClienteController extends Controller<Cliente> {
 				entity.setPessoa(new PessoaJuridica());
 			} else {
 				entity.setPessoa(new PessoaFisica());
-//				if(isFornecedor) {
-//					entity = new Fornecedor();
-//				}
-
 			}
 
 			entity.setEndereco(new Endereco(new Cidade(new Estado())));
@@ -72,7 +68,7 @@ public class ClienteController extends Controller<Cliente> {
 
 	public void buscarCep() {
 		try {
-			entity.setEndereco(CEPUtil.findCep(CEPUtil.removeMascaraCep(entity.getEndereco().getCep())));
+			entity.setEndereco(ApiCep.findCep(ApiCep.removeMascaraCep(entity.getEndereco().getCep())));
 		} catch (ViaCepException e) {
 			Util.addErrorMessage("Informe um CEP válido");
 		} catch (ViaCepFormatException e) {
