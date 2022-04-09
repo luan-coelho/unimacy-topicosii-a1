@@ -57,10 +57,6 @@ public class ClienteController extends Controller<Cliente> {
 		this.isPessoaJuridica = isPessoaJuridica;
 	}
 
-	public void cadastrar() {
-		System.out.println(entity.getPessoa().toString());
-	}
-
 	@Override
 	public void limpar() {
 		super.limpar();
@@ -68,7 +64,7 @@ public class ClienteController extends Controller<Cliente> {
 
 	public void buscarCep() {
 		try {
-			entity.setEndereco(ApiCep.findCep(ApiCep.removeMascaraCep(entity.getEndereco().getCep())));
+			entity.setEndereco(ApiCep.findCep(entity.getEndereco().getCep()));
 		} catch (ViaCepException e) {
 			Util.addErrorMessage("Informe um CEP válido");
 		} catch (ViaCepFormatException e) {
@@ -77,6 +73,16 @@ public class ClienteController extends Controller<Cliente> {
 			Util.addErrorMessage("Falha ao buscar CEP. Digite os dados");
 		}
 
+	}
+	
+	public void onItemSelect() {
+		String estado = entity.getEndereco().getCidade().getEstado().getNome();
+		
+		System.out.println(estado);
+	}
+	
+	public void cadastrar() {
+		
 	}
 
 }

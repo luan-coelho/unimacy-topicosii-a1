@@ -135,19 +135,13 @@
 									<p:autoComplete id="estado"
 										value="#{clienteController.entity.endereco.cidade.estado.nome}"
 										completeMethod="#{enderecoUtil.completeText}"
-										scrollHeight="250" placeholder="Digite o Estado">
+										scrollHeight="250" placeholder="Digite o Estado"  
+										forceSelection="true" >
 
-										<p:ajax event="blur" process="@this" update="@form:cidade" />
-
+										<p:ajax event="itemSelect" 
+											listener="#{clienteController.onItemSelect}"
+											process="@this" update="@form:endereco" />
 									</p:autoComplete>
-								</div>
-
-								<div>
-									<p:outputLabel value="Cidade " />
-									<p:autoComplete id="cidade"
-										value="#{clienteController.entity.endereco.cidade.nome}"
-										completeMethod="#{cidadeUtil.completeText}" scrollHeight="250"
-										placeholder="Digite a Cidade" />
 								</div>
 
 								<div>

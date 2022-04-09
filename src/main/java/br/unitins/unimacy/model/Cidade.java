@@ -14,6 +14,11 @@ public class Cidade extends DefaultEntity {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Cidade(String nome) {
+		super();
+		this.nome = nome;
+	}
+	
 	public Cidade(String nome, Estado estado) {
 		super();
 		this.nome = nome;

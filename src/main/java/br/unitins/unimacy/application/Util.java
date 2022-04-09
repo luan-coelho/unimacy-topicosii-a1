@@ -6,8 +6,20 @@ import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 
 public class Util {
+
+	private static Flash flash;
+
+	public static Flash getFlashScope() {
+		if (flash == null) {
+			flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		}
+
+		return flash;
+	}
+
 	public static void redirect(String page) {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(page);

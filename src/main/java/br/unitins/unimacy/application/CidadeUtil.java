@@ -6,27 +6,43 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.primefaces.event.SelectEvent;
+import br.unitins.unimacy.model.Cidade;
 
 @Named
 @ViewScoped
 public class CidadeUtil implements Serializable {
 
-	private static final long serialVersionUID = -1251069270232023122L;
+	private static final long serialVersionUID = -629188925555279475L;
 
-	private List<CidadeAux> listaCidade = ApiCep.pegarCidadePorUf("TO");
+	private String ufEstado;
+
+	private List<Cidade> listaCidade;
+
+	public CidadeUtil() {
+		this.ufEstado = (String) Session.getInstance().get("uf-estado");
+	}
+
+	public String getUfEstado() {
+		return ufEstado;
+	}
+
+	public List<Cidade> getListaCidade() {
+		if (listaCidade == null) {
+			this.listaCidade = ApiCep.pegarCidadePorUf(ufEstado);
+			System.out.println(ufEstado);
+		}
+		return listaCidade;
+	}
 
 	public List<String> completeText(String query) {
 		String CidadeLowerCase = query.toLowerCase();
 		List<String> listaCidadeString = new ArrayList<>();
 
-		for (CidadeAux Cidade : listaCidade) {
-			listaCidadeString.add(Cidade.nome);
+		for (Cidade Cidade : getListaCidade()) {
+			listaCidadeString.add(Cidade.getNome());
 		}
 
 		return listaCidadeString.stream().filter(t -> t.toLowerCase().startsWith(CidadeLowerCase))
@@ -37,18 +53,9 @@ public class CidadeUtil implements Serializable {
 		return Collections.emptyList();
 	}
 
-	public List<CidadeAux> completeCidade(String query) {
+	public List<Cidade> completeCidade(String query) {
 		String queryLowerCase = query.toLowerCase();
-		return listaCidade.stream().filter(t -> t.nome.toLowerCase().contains(queryLowerCase))
+		return listaCidade.stream().filter(t -> t.getNome().toLowerCase().contains(queryLowerCase))
 				.collect(Collectors.toList());
 	}
-
-	public void onItemSelect(SelectEvent<String> event) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cidade selecionado", event.getObject()));
-	}
-
-	public void onEmptyMessageSelect() {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Empty message selected"));
-	}
-
 }
