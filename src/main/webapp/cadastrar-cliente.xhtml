@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -135,13 +136,22 @@
 									<p:autoComplete id="estado"
 										value="#{clienteController.entity.endereco.cidade.estado.nome}"
 										completeMethod="#{enderecoUtil.completeText}"
-										scrollHeight="250" placeholder="Digite o Estado"  
-										forceSelection="true" >
+										scrollHeight="250" placeholder="Digite o Estado"
+										forceSelection="true">
 
-										<p:ajax event="itemSelect" 
+										<p:ajax event="itemSelect"
 											listener="#{clienteController.onItemSelect}"
-											process="@this" update="@form:endereco" />
+											process="@form:endereco" update="@form:endereco" />
 									</p:autoComplete>
+								</div>
+
+								<div>
+									<p:outputLabel value="Cidade " />
+									<p:autoComplete id="cidade"
+										value="#{clienteController.entity.endereco.cidade.nome}"
+										completeMethod="#{cidadeUtil.completeText}" scrollHeight="250"
+										placeholder="Digite a Cidade"
+										disabled="#{clienteController.entity.endereco.cidade.estado.nome == null}" />
 								</div>
 
 								<div>
@@ -150,7 +160,6 @@
 										process="@this" />
 								</div>
 							</div>
-
 						</p:panel>
 					</p:dialog>
 				</div>

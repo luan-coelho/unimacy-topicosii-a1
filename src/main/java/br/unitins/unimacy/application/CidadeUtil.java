@@ -2,7 +2,6 @@ package br.unitins.unimacy.application;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,45 +16,50 @@ public class CidadeUtil implements Serializable {
 
 	private static final long serialVersionUID = -629188925555279475L;
 
-	private String ufEstado;
+	private String nomeEstado;
 
 	private List<Cidade> listaCidade;
 
 	public CidadeUtil() {
-		this.ufEstado = (String) Session.getInstance().get("uf-estado");
+			
 	}
 
-	public String getUfEstado() {
-		return ufEstado;
+	public String getNomeEstado() {
+		if (nomeEstado == null) {
+			nomeEstado = (String) Session.getInstance().get("nome-estado");
+		}
+		return nomeEstado;
+	}
+
+	public void setNomeEstado(String nomeEstado) {
+		this.nomeEstado = nomeEstado;
 	}
 
 	public List<Cidade> getListaCidade() {
 		if (listaCidade == null) {
-			this.listaCidade = ApiCep.pegarCidadePorUf(ufEstado);
-			System.out.println(ufEstado);
+			String siglaEstado = ApiCep.pegarUfEstadoporNome(getNomeEstado());
+
+			this.listaCidade = ApiCep.pegarCidadePorUf(siglaEstado);
+			
+			setNomeEstado(null);
 		}
 		return listaCidade;
 	}
 
+	public void setListaCidade(List<Cidade> listaCidade) {
+		this.listaCidade = listaCidade;
+	}
+
 	public List<String> completeText(String query) {
-		String CidadeLowerCase = query.toLowerCase();
 		List<String> listaCidadeString = new ArrayList<>();
 
+		setListaCidade(null);
+		
 		for (Cidade Cidade : getListaCidade()) {
 			listaCidadeString.add(Cidade.getNome());
 		}
 
-		return listaCidadeString.stream().filter(t -> t.toLowerCase().startsWith(CidadeLowerCase))
-				.collect(Collectors.toList());
-	}
-
-	public List<String> noResults(String query) {
-		return Collections.emptyList();
-	}
-
-	public List<Cidade> completeCidade(String query) {
-		String queryLowerCase = query.toLowerCase();
-		return listaCidade.stream().filter(t -> t.getNome().toLowerCase().contains(queryLowerCase))
+		return listaCidadeString.stream().filter(t -> t.toLowerCase().startsWith(query.toLowerCase()))
 				.collect(Collectors.toList());
 	}
 }

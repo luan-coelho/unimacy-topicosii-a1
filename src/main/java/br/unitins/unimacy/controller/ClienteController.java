@@ -7,6 +7,7 @@ import com.gtbr.exception.ViaCepException;
 import com.gtbr.exception.ViaCepFormatException;
 
 import br.unitins.unimacy.application.ApiCep;
+import br.unitins.unimacy.application.Session;
 import br.unitins.unimacy.application.Util;
 import br.unitins.unimacy.model.Cidade;
 import br.unitins.unimacy.model.Cliente;
@@ -76,13 +77,9 @@ public class ClienteController extends Controller<Cliente> {
 	}
 	
 	public void onItemSelect() {
-		String estado = entity.getEndereco().getCidade().getEstado().getNome();
+		String nomeEstado = entity.getEndereco().getCidade().getEstado().getNome();
 		
-		System.out.println(estado);
+		Session.getInstance().set("nome-estado", nomeEstado);
 	}
 	
-	public void cadastrar() {
-		
-	}
-
 }

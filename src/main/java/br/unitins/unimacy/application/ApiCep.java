@@ -178,11 +178,17 @@ public class ApiCep {
 		return estado;
 	}
 	
-	public static Estado pegarUfporNome(String nome) {
+	public static String pegarUfEstadoporNome(String nome) {
 		List <Estado> listaEstados = pegarEstados();
 		
-		return (Estado) listaEstados.stream()
-				.filter(estado -> estado.getNome().equals(nome)).collect(Collectors.toList());
+		List <Estado> estado = listaEstados.stream()
+				.filter(e -> e.getNome().equals(nome)).collect(Collectors.toList());
+		
+		if(!estado.isEmpty()) {
+			return estado.get(0).getUf();
+		}
+		
+		return null;
 	}
 
 	
