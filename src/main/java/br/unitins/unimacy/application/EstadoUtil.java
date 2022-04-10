@@ -12,7 +12,7 @@ import br.unitins.unimacy.model.Estado;
 
 @Named
 @ViewScoped
-public class EnderecoUtil implements Serializable {
+public class EstadoUtil implements Serializable {
 
 	private static final long serialVersionUID = -1251069270232023122L;
 
