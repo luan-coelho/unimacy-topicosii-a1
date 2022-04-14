@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Entity;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 @Entity
 public class PessoaFisica extends Pessoa {
 
@@ -15,23 +13,29 @@ public class PessoaFisica extends Pessoa {
 	private String sobreNome;
 	private Sexo sexo;
 
-	@CPF(message = "Informe um CPF válido")
+	// @CPF(message = "Informe um CPF válido")
 	private String cpf;
-	private String rg;
 	private LocalDate dataNascimento;
 
 	public PessoaFisica() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PessoaFisica(String nome, String sobreNome, Sexo sexo, String cpf,
-			String rg, LocalDate dataNascimento) {
+	public PessoaFisica(String nome, String sobreNome, Sexo sexo, String cpf, LocalDate dataNascimento) {
 		super();
 		this.nome = nome;
 		this.sobreNome = sobreNome;
 		this.sexo = sexo;
 		this.cpf = cpf;
-		this.rg = rg;
+		this.dataNascimento = dataNascimento;
+	}
+	
+	public PessoaFisica(String nome, String sobreNome, Sexo sexo, String cpf, LocalDate dataNascimento, boolean ativo, Endereco endereco) {
+		super();
+		this.nome = nome;
+		this.sobreNome = sobreNome;
+		this.sexo = sexo;
+		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -59,14 +63,6 @@ public class PessoaFisica extends Pessoa {
 		this.cpf = cpf;
 	}
 
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
@@ -86,6 +82,6 @@ public class PessoaFisica extends Pessoa {
 	@Override
 	public String toString() {
 		return "PessoaFisica [nome=" + nome + ", sobreNome=" + sobreNome + ", sexo=" + sexo + ", cpf=" + cpf + ", rg="
-				+ rg + ", dataNascimento=" + dataNascimento + "]";
+				+ ", dataNascimento=" + dataNascimento + "]";
 	}
 }

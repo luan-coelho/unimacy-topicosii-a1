@@ -1,58 +1,258 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<h:head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="Luan Coêlho" />
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-		crossorigin="anonymous" />
-	<title>Clientes</title>
-</h:head>
-<h:body>
-	<h:form>
-		<div class="ui-fluid p-formgrid p-grid">
-			<div class="p-field p-col-12 p-md-6">
-				<label for="firstname6">Firstname</label>
-				<p:inputText id="firstname6" type="text" />
-			</div>
-			<div class="p-field p-col-12 p-md-6">
-				<label for="lastname6">Lastname</label>
-				<p:inputText id="lastname6" type="text" />
-			</div>
-			<div class="p-field p-col-12">
-				<label for="address">Address</label>
-				<p:inputTextarea id="address" rows="4" />
-			</div>
-			<div class="p-field p-col-12 p-md-6">
-				<label for="city">City</label>
-				<p:inputText id="city" type="text" />
-			</div>
-			<div class="p-field p-col-12 p-md-3">
-				<label for="state">State</label>
-				<p:selectOneMenu id="state">
-					<f:selectItem itemLabel="Select" itemValue="" />
-					<f:selectItem itemLabel="Arizona" itemValue="Arizona" />
-					<f:selectItem itemLabel="California" itemValue="California" />
-					<f:selectItem itemLabel="Florida" itemValue="Florida" />
-					<f:selectItem itemLabel="Ohio" itemValue="Ohio" />
-					<f:selectItem itemLabel="Washington" itemValue="Washington" />
-				</p:selectOneMenu>
-			</div>
-			<div class="p-field p-col-12 p-md-3">
-				<label for="zip">Zip</label>
-				<p:inputText id="zip" type="text" />
-			</div>
-		</div>
-	</h:form>
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
-	<h:outputScript library="js" name="bootstrap.min.js" />
-</h:body>
+<ui:composition template="template.xhtml">
+
+	<ui:define name="head">
+		<h:outputStylesheet library="webjars"
+			name="primeflex/2.0.0/primeflex.min.css" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<div class="p-d-flex p-jc-center">
+			<p:dataTable var="cliente" style="width: 80%;"
+				value="#{clienteController.listaCliente}" paginator="true" rows="10"
+				styleClass="products-table p-mt-5 p-mb-5" rowSelectMode="add"
+				paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
+				stickyHeader="true" stickyTopAt=".layout-topbar" stripedRows="true">
+
+				<f:facet name="header">
+					<div class="products-table-header">
+
+						<p:toolbar>
+							<p:toolbarGroup>
+								<p:commandButton value="Cadastrar Cliente" icon="pi pi-plus"
+									styleClass="ui-button-success" onclick="PF('editar-cliente').show()">
+								</p:commandButton>
+
+								<span class="filter-container ui-input-icon-left"> <i
+									class="pi pi-search"></i> <p:inputText id="globalFilter"
+										onkeyup="PF('dtProducts').filter()" placeholder="Pesquisar" />
+								</span>
+							</p:toolbarGroup>
+						</p:toolbar>
+					</div>
+				</f:facet>
+
+				<p:column sortBy="#{cliente.pessoa.nome}" headerText="Nome Completo">
+					<h:outputText
+						value="#{cliente.pessoa.nome.trim()} #{cliente.pessoa.sobreNome.trim()}" />
+				</p:column>
+
+				<p:column sortBy="#{cliente.pessoa.cpf}" headerText="CPF">
+					<h:outputText value="#{cliente.pessoa.cpf}" />
+				</p:column>
+
+				<p:column sortBy="#{cliente.pessoa.ativo}" headerText="Status">
+					<h:outputText
+						value="#{cliente.pessoa.ativo == true ? 'Ativo' : 'Inativo'}" />
+				</p:column>
+				<p:column exportable="false">
+					<p:commandButton icon="pi pi-pencil"
+						onclick="PF('editar-cliente').show()"
+						styleClass="edit-button rounded-button ui-button-info"
+						style="margin-right: 0.3em;">
+						<p:ajax process="@this" update="@form:cadastro" listener="#{clienteController.alterar(cliente)}"/>
+					</p:commandButton>
+					<p:commandButton class="ui-button-danger rounded-button"
+						icon="pi pi-trash" process="@this">
+						<p:confirm header="Confirmação"
+							message="Você tem certeza que deseja exluir o registro definitivamente?"
+							icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				responsive="true" width="350">
+				<p:commandButton value="Sim" type="button"
+					action="#{clienteController.listaCliente.remove(cliente)}"
+					styleClass="ui-confirmdialog-yes" process="@this" update="@form" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no ui-button-flat" />
+			</p:confirmDialog>
+
+			<p:dialog id="cliente-info" header="Informações do Cliente" widgetVar="editar-cliente" modal="true" showEffect="fade"
+				minHeight="40" width="750">
+				<h:panelGroup id="cadastro" layout="block" styleClass="ui-fluid">
+					<div class="container">
+						<div class="forms">
+							<div class="form login">
+							
+								<p:growl id="growl" />
+
+								<div class="ui-fluid">
+									<div>
+										<p:selectOneRadio id="tipo-pessoa" required="true"
+											value="#{clienteController.pessoaJuridica}"
+											unselectable="true" style="margin-top: 0.7em;">
+											<f:selectItem itemLabel="Pessoa Física" itemValue="false" />
+											<f:selectItem itemLabel="Pessoa Jurídica" itemValue="true" />
+											<p:ajax listener="#{clienteController.limpar}"
+												process="@this" update="@form:cadastro" />
+										</p:selectOneRadio>
+									</div>
+									<h:panelGroup layout="block"
+										rendered="#{clienteController.pessoaJuridica == false}">
+
+										<div class="ui-fluid p-formgrid p-grid">
+											<div class="p-field p-col-12 p-md-6">
+												<p:outputLabel for="nome" value="Nome" />
+												<p:inputText id="nome" type="text"
+													value="#{clienteController.entity.pessoa.nome}" />
+											</div>
+											<div class="p-field p-col-12 p-md-6">
+												<p:outputLabel for="sobrenome" value="Sobrenome" />
+												<p:inputText id="sobrenome" type="text"
+													value="#{clienteController.entity.pessoa.sobreNome}" />
+											</div>
+
+											<div class="p-field p-col-12 p-md-6">
+												<p:outputLabel value="CPF" />
+												<p:inputMask mask="999.999.999-99" id="cpf" maxlength="14"
+													value="#{clienteController.entity.pessoa.cpf}" />
+											</div>
+
+											<div class="p-field p-col-12 p-md-6">
+												<p:outputLabel value="Sexo" />
+												<p:selectOneRadio
+													value="#{clienteController.entity.pessoa.sexo}">
+													<f:selectItems var="obj"
+														value="#{clienteController.listaSexo}"
+														itemLabel="#{obj.label}" />
+												</p:selectOneRadio>
+											</div>
+
+											<div class="p-field p-col-12 p-md-6">
+												<p:outputLabel for="data-nascimento"
+													value="Data de Nascimento" />
+												<p:datePicker id="data-nascimento"
+													value="#{clienteController.entity.pessoa.dataNascimento}"
+													monthNavigator="true" pattern="dd/MM/yyyy"
+													mask="99/99/9999" />
+											</div>
+										</div>
+									</h:panelGroup>
+
+									<h:panelGroup layout="block"
+										rendered="#{clienteController.pessoaJuridica}">
+
+										<p:outputLabel value="CNPJ" />
+										<p:inputMask value="#{clienteController.entity.pessoa.cnpj}"
+											mask="99.999.999/9999-99" id="cnpj" maxlength="18" />
+									</h:panelGroup>
+
+									<div class="p-field p-col-12 p-md-6">
+										<p:outputLabel for="email" value="Email" />
+										<p:inputText value="#{clienteController.entity.email}"
+											id="email" type="email" />
+									</div>
+
+									<div class="p-field p-col-12 p-md-6">
+										<p:outputLabel for="phone" value="Telefone" />
+										<p:inputText
+											value="#{clienteController.entity.pessoa.telefone}"
+											id="phone" type="text" />
+									</div>
+
+									<p:dialog header="Adicionar Enderenço" widgetVar="endereco"
+										minHeight="100" width="30%" showEffect="fade"
+										resizable="false" closeOnEscape="true">
+										<p:panel id="endereco">
+
+											<div class="ui-fluid">
+
+												<p:outputLabel value="CEP " />
+												<div class="ui-inputgroup">
+													<p:inputMask mask="99999-999" id="cep" maxlength="9"
+														value="#{clienteController.entity.endereco.cep}" />
+													<p:commandButton
+														actionListener="#{clienteController.buscarCep}"
+														icon="pi pi-search" process="@this @form:cep"
+														update="@form:endereco @form:growl" styleClass="ui-button-warning" />
+												</div>
+
+												<div>
+													<p:outputLabel value="Rua" />
+													<p:inputText id="rua"
+														value="#{clienteController.entity.endereco.rua}" />
+												</div>
+
+												<div>
+													<p:outputLabel value="Número" />
+													<p:inputText id="numero"
+														value="#{clienteController.entity.endereco.numero}" />
+												</div>
+
+												<div>
+													<p:outputLabel value="Bairro" />
+													<p:inputText id="bairro"
+														value="#{clienteController.entity.endereco.bairro}" />
+												</div>
+
+												<div>
+													<p:outputLabel value="Estado" />
+													<p:autoComplete id="estado"
+														value="#{clienteController.entity.endereco.cidade.estado.nome}"
+														completeMethod="#{estadoUtil.completeText}"
+														scrollHeight="250" placeholder="Digite o Estado"
+														forceSelection="true">
+
+														<p:ajax event="itemSelect"
+															listener="#{clienteController.onItemSelect}"
+															process="@form:endereco" update="@form:endereco" />
+													</p:autoComplete>
+												</div>
+
+												<div>
+													<p:outputLabel value="Cidade " />
+													<p:autoComplete id="cidade"
+														value="#{clienteController.entity.endereco.cidade.nome}"
+														completeMethod="#{cidadeUtil.completeText}"
+														scrollHeight="250" placeholder="Digite a Cidade"
+														disabled="#{clienteController.entity.endereco.cidade.estado.nome == null}" />
+												</div>
+
+												<div>
+													<p:commandButton value="Salvar" icon="pi pi-plus"
+														styleClass="ui-button-success"
+														onclick="PF('endereco').hide()" process="@this" />
+												</div>
+											</div>
+										</p:panel>
+									</p:dialog>
+
+									<div class="p-d-inline">
+										<h:panelGroup layout="block">
+											<p:commandButton value="Adicionar Endereço" icon="pi pi-add"
+												onclick="PF('endereco').show()" process="@this" />
+										</h:panelGroup>
+										<div>
+											<p:commandButton value="Cadastrar"
+												styleClass="ui-button-success"
+												action="#{clienteController.cadastrar}"
+												process="@form:cadastro" update="@form:cadastro" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+
+		</div>
+
+	</ui:define>
+
+</ui:composition>
 </html>

@@ -6,8 +6,9 @@ public class PessoaJuridica extends Pessoa {
 
 	private static final long serialVersionUID = 5775140670357351776L;
 
-	@CNPJ(message = "Informe um CNPJ válido")
+	//@CNPJ(message = "Informe um CNPJ válido")
 	private String cnpj;
+	
 
 	public PessoaJuridica() {
 		// TODO Auto-generated constructor stub

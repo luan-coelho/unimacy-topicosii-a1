@@ -1,6 +1,8 @@
 package br.unitins.unimacy.model;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Endereco extends DefaultEntity {
@@ -13,6 +15,8 @@ public class Endereco extends DefaultEntity {
 	private String complemento;
 	private String cep;
 
+	@OneToOne 
+	@JoinColumn(name="cidade_id")
 	private Cidade cidade;
 
 	public Endereco() {

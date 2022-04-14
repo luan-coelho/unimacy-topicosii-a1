@@ -1,5 +1,7 @@
 package br.unitins.unimacy.controller;
 
+import java.util.List;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -25,6 +27,8 @@ public class ClienteController extends Controller<Cliente> {
 	private static final long serialVersionUID = -2587172429280470098L;
 
 	private boolean isPessoaJuridica;
+	
+	private List <Cliente> listaCliente;
 
 	public ClienteController() {
 		super(new ClienteRepository());
@@ -57,6 +61,17 @@ public class ClienteController extends Controller<Cliente> {
 	public void setPessoaJuridica(boolean isPessoaJuridica) {
 		this.isPessoaJuridica = isPessoaJuridica;
 	}
+	
+	public List<Cliente> getListaCliente() {
+		if(listaCliente == null) {
+			listaCliente = Cliente.cargaCliente();
+		}
+		return listaCliente;
+	}
+
+	public void setListaCliente(List<Cliente> listaCliente) {
+		this.listaCliente = listaCliente;
+	}
 
 	@Override
 	public void limpar() {
@@ -80,6 +95,19 @@ public class ClienteController extends Controller<Cliente> {
 		String nomeEstado = entity.getEndereco().getCidade().getEstado().getNome();
 		
 		Session.getInstance().set("nome-estado", nomeEstado);
+	}
+	
+	public void alterar(Cliente cliente) {
+		entity = cliente;
+		
+		System.out.println(entity);
+		//super.alterar();
+	}
+	
+	public void cadastrar() {
+		incluir();
+		
+		System.out.println(entity.toString());
 	}
 	
 }

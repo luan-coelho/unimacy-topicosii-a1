@@ -14,6 +14,7 @@
 	<meta name="author" content="Luan Coêlho" />
 	<h:outputStylesheet library="css" name="template.css" />
 	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="webjars" name="primeflex/2.0.0/primeflex.min.css" />
 
 	<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'
 		rel='stylesheet' />
@@ -22,7 +23,7 @@
 	</ui:insert>
 </h:head>
 
-<h:body style="background: #F5F5DC;">
+<h:body style="background: #E1E1E6;" class="dark">
 	<h:form id="form" styleClass="form-menu-bar">
 
 		<nav class="sidebar close">
@@ -72,7 +73,7 @@
 						<div class="sun-moon">
 							<i class='bx bx-moon icon moon'></i> <i
 								class='bx bx-sun icon sun'></i>
-						</div> <span class="mode-text text">Dark mode</span>
+						</div> <span class="mode-text text">Light mode</span>
 
 						<div class="toggle-switch">
 							<span class="switch"></span>
@@ -89,13 +90,12 @@
 
 		<footer>
 			<div>
-				<p>© 2022 Copyright Unimacy</p>
-				<a class="text-white" href="https://github.com/luan-coelho"><i
-					class='bx bxl-github bx-sm'></i>Luan Côelho</a>
+				<p>© 2022 Copyright Unimacy<a class="text-white" href="https://github.com/luan-coelho"><i
+					class='bx bxl-github bx-sm'></i>Luan Côelho</a></p>
 			</div>
 		</footer>
 
-		<h:outputScript library="js" name="script.js" />
+		<h:outputScript library="js" name="template.js" />
 	</h:form>
 </h:body>
 </html>
