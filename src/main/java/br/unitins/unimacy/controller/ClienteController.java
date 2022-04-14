@@ -5,6 +5,8 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.primefaces.event.FlowEvent;
+
 import com.gtbr.exception.ViaCepException;
 import com.gtbr.exception.ViaCepFormatException;
 
@@ -26,9 +28,10 @@ public class ClienteController extends Controller<Cliente> {
 
 	private static final long serialVersionUID = -2587172429280470098L;
 
+	private boolean pular;
 	private boolean isPessoaJuridica;
-	
-	private List <Cliente> listaCliente;
+
+	private List<Cliente> listaCliente;
 
 	public ClienteController() {
 		super(new ClienteRepository());
@@ -61,9 +64,26 @@ public class ClienteController extends Controller<Cliente> {
 	public void setPessoaJuridica(boolean isPessoaJuridica) {
 		this.isPessoaJuridica = isPessoaJuridica;
 	}
-	
+
+	public boolean isPular() {
+		return pular;
+	}
+
+	public void setPular(boolean pular) {
+		this.pular = pular;
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+		if (pular) {
+			pular = false; // reset in case user goes back
+			return "confirm";
+		} else {
+			return event.getNewStep();
+		}
+	}
+
 	public List<Cliente> getListaCliente() {
-		if(listaCliente == null) {
+		if (listaCliente == null) {
 			listaCliente = Cliente.cargaCliente();
 		}
 		return listaCliente;
@@ -90,24 +110,24 @@ public class ClienteController extends Controller<Cliente> {
 		}
 
 	}
-	
+
 	public void onItemSelect() {
 		String nomeEstado = entity.getEndereco().getCidade().getEstado().getNome();
-		
+
 		Session.getInstance().set("nome-estado", nomeEstado);
 	}
-	
+
 	public void alterar(Cliente cliente) {
 		entity = cliente;
-		
+
 		System.out.println(entity);
-		//super.alterar();
+		// super.alterar();
 	}
-	
+
 	public void cadastrar() {
 		incluir();
-		
+
 		System.out.println(entity.toString());
 	}
-	
+
 }
