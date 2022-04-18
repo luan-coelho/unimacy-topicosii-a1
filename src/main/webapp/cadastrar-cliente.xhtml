@@ -5,13 +5,15 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
 
 <ui:composition template="template.xhtml">
 
 	<ui:define name="head">
 		<h:outputStylesheet library="webjars"
 			name="primeflex/2.0.0/primeflex.min.css" />
+		<h:outputStylesheet library="css" name="cadastrar-cliente.css" />
 	</ui:define>
 
 	<ui:define name="conteudo">
@@ -19,7 +21,7 @@
 		<p:growl id="growl" />
 
 		<div class="p-d-flex p-jc-center">
-			<p:dataTable var="cliente" style="width: 80%;"
+			<p:dataTable id="dataTable" var="cliente" style="width: 80%;"
 				value="#{clienteController.listaCliente}" paginator="true" rows="10"
 				styleClass="products-table p-mt-5 p-mb-5" rowSelectMode="add"
 				paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
@@ -34,30 +36,35 @@
 									styleClass="ui-button-success"
 									onclick="PF('editar-cliente').show()">
 								</p:commandButton>
-
-								<span class="filter-container ui-input-icon-left"> <i
-									class="pi pi-search"></i> <p:inputText id="globalFilter"
-										onkeyup="PF('dtProducts').filter()" placeholder="Pesquisar" />
-								</span>
 							</p:toolbarGroup>
 						</p:toolbar>
 					</div>
 				</f:facet>
 
-				<p:column sortBy="#{cliente.pessoa.nome}" headerText="Nome Completo">
+				<p:column sortBy="#{cliente.pessoa.nome}" headerText="Nome Completo"
+					filterBy="#{cliente.pessoa.nome}">
 					<h:outputText
 						value="#{cliente.pessoa.nome.trim()} #{cliente.pessoa.sobreNome.trim()}" />
 				</p:column>
 
-				<p:column sortBy="#{cliente.pessoa.cpf}" headerText="CPF">
+				<p:column sortBy="#{cliente.pessoa.cpf}" headerText="CPF"
+					filterBy="#{cliente.pessoa.cpf}">
 					<h:outputText value="#{cliente.pessoa.cpf}" />
 				</p:column>
 
-				<p:column sortBy="#{cliente.pessoa.ativo}" headerText="Status">
-					<h:outputText
-						value="#{cliente.pessoa.ativo == true ? 'Ativo' : 'Inativo'}" />
+				<p:column sortBy="#{cliente.pessoa.ativo}" headerText="Ativo">
+					<p:toggleSwitch value="#{cliente.pessoa.ativo}">
+						<p:ajax listener="#{clienteController.alterar(cliente)}"
+							process="@this" update="@form:dataTable" />
+					</p:toggleSwitch>
 				</p:column>
 				<p:column exportable="false">
+					<p:commandButton icon="pi pi-search"
+						styleClass="edit-button rounded-button ui-button-help"
+						style="margin-right: 0.3em;" onclick="PF('resumo-cliente').show()">
+						<p:ajax process="@this" update="@form:confirmar"
+							listener="#{clienteController.alterar(cliente)}" />
+					</p:commandButton>
 					<p:commandButton icon="pi pi-pencil"
 						onclick="PF('editar-cliente').show()"
 						styleClass="edit-button rounded-button ui-button-info"
@@ -85,13 +92,15 @@
 			</p:confirmDialog>
 
 			<p:dialog id="cliente-info" widgetVar="editar-cliente" modal="true"
-				header="Informações do Cliente" showEffect="fade" minHeight="40"
-				width="750">
+				draggable="false" header="Informações do Cliente" showEffect="fade"
+				minHeight="40" width="750">
 
 				<p:wizard nextLabel="Prosseguir" backLabel="Voltar">
 					<p:tab id="pessoa" title="Dados Pessoais">
 						<p:panel id="p-fisica">
-							<p:messages />
+
+							<p:messages closable="true" />
+
 							<h:panelGrid columns="2" columnClasses="label, value">
 								<div>
 									<p:selectOneRadio id="tipo-pessoa" required="true"
@@ -109,25 +118,29 @@
 									<div class="ui-fluid p-formgrid p-grid">
 										<div class="p-field p-col-12 p-md-6">
 											<p:outputLabel for="nome" value="Nome" />
-											<p:inputText id="nome" type="text"
+											<p:inputText id="nome" type="text" required="true"
+												requiredMessage="Informe o nome"
 												value="#{clienteController.entity.pessoa.nome}" />
 										</div>
 										<div class="p-field p-col-12 p-md-6">
 											<p:outputLabel for="sobrenome" value="Sobrenome" />
-											<p:inputText id="sobrenome" type="text"
+											<p:inputText id="sobrenome" type="text" required="true"
+												requiredMessage="Informe o sobrenome"
 												value="#{clienteController.entity.pessoa.sobreNome}" />
 										</div>
 
 										<div class="p-field p-col-12 p-md-6">
 											<p:outputLabel value="CPF" />
 											<p:inputMask mask="999.999.999-99" id="cpf" maxlength="14"
-												value="#{clienteController.entity.pessoa.cpf}" />
+												value="#{clienteController.entity.pessoa.cpf}"
+												required="true" requiredMessage="Informe um CPF válido" />
 										</div>
 
 										<div class="p-field p-col-12 p-md-6">
 											<p:outputLabel value="Sexo" />
 											<p:selectOneRadio
-												value="#{clienteController.entity.pessoa.sexo}">
+												value="#{clienteController.entity.pessoa.sexo}"
+												required="true" requiredMessage="Informe o sexo">
 												<f:selectItems var="obj"
 													value="#{clienteController.listaSexo}"
 													itemLabel="#{obj.label}" />
@@ -140,7 +153,9 @@
 											<p:datePicker id="data-nascimento"
 												value="#{clienteController.entity.pessoa.dataNascimento}"
 												monthNavigator="true" yearNavigator="true" showWeek="true"
-												pattern="dd/MM/yyyy" mask="99/99/9999" />
+												pattern="dd/MM/yyyy" mask="99/99/9999" required="true"
+												requiredMessage="Informe a data de nascimento"
+												showIcon="true" showButtonBar="true" showOnFocus="false" />
 										</div>
 									</div>
 								</h:panelGroup>
@@ -152,6 +167,8 @@
 						<p:panel id="endereco"
 							header="Informe os dados de endereço do cliente">
 							<div class="ui-fluid p-formgrid p-grid">
+
+								<p:messages />
 
 								<div class="ui-inputgroup p-field p-md-6">
 									<p:outputLabel value="CEP " />
@@ -206,9 +223,25 @@
 							</div>
 						</p:panel>
 					</p:tab>
+					<p:tab title="Confirmar Dados">
+						<components:Summary />
+						<p:commandButton value="Salvar" icon="pi pi-save"
+							styleClass="ui-button-success"
+							action="#{clienteController.cadastrar}" update="@form"
+							process="@this" onclick="PF('editar-cliente').hide()" />
+					</p:tab>
 
 				</p:wizard>
 			</p:dialog>
+
+			<p:dialog id="cliente-info-resumo" widgetVar="resumo-cliente"
+				modal="true" draggable="false" header="Informações do Cliente"
+				showEffect="fade" minHeight="40" width="750">
+				<h:panelGroup id="confirmar">
+					<components:Summary />
+				</h:panelGroup>
+			</p:dialog>
+
 		</div>
 
 	</ui:define>

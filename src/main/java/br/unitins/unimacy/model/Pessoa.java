@@ -10,44 +10,27 @@ public class Pessoa extends DefaultEntity {
 
 	private static final long serialVersionUID = 2886589069101743676L;
 
-	//@Email(message = "Informe um email válido")
+	// @Email(message = "Informe um email válido")
 	private String email;
 	private String senha;
 	private String telefone;
-	
+
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="endereco_id")
-	private Endereco endereco;
+	@JoinColumn(name = "endereco_id")
+	private Endereco endereco = new Endereco(new Cidade(new Estado()));
+	
 	private boolean ativo = true;
 
 	public Pessoa() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pessoa(String email, String senha, String telefone, Endereco endereco, boolean ativo) {
-		super();
-		this.email = email;
-		this.senha = senha;
-		this.telefone = telefone;
-		this.endereco = endereco;
-		this.ativo = ativo;
-	}
-	
-	public Pessoa(String email, String senha, String telefone, Endereco endereco) {
-		super();
-		this.email = email;
-		this.senha = senha;
-		this.telefone = telefone;
-		this.endereco = endereco;
-	}
-	
-	public Pessoa(boolean ativo, Endereco endereco) {
-		this.ativo = ativo;
-		this.endereco = endereco;
-	}
-	
 	public Pessoa(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	
+	public Pessoa(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public String getEmail() {
@@ -85,7 +68,7 @@ public class Pessoa extends DefaultEntity {
 	public boolean isAtivo() {
 		return ativo;
 	}
-
+	
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<composite:interface>
+</composite:interface>
+<composite:implementation>
+	<p:panel id="confirmar" header="Revise os dados">
+		<h:panelGrid columns="2" styleClass="p-d-flex p-jc-between">
+			<h:panelGrid columns="2" columnClasses="label, value">
+				<p:outputLabel value="Nome Completo: " />
+				<h:outputText
+					value="#{clienteController.entity.pessoa.nome.trim()} #{clienteController.entity.pessoa.sobreNome.trim()}"
+					styleClass="outputLabel" />
+
+				<p:outputLabel value="CPF: " />
+				<h:outputText value="#{clienteController.entity.pessoa.cpf}"
+					styleClass="outputLabel" />
+
+				<p:outputLabel value="Sexo: " />
+				<h:outputText value="#{clienteController.entity.pessoa.sexo.label}"
+					styleClass="outputLabel" />
+
+				<h:outputLabel value="Data de Nascimento: " />
+				<h:outputText
+					value="#{clienteController.entity.pessoa.dataNascimento}"
+					styleClass="outputLabel">
+					<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+				</h:outputText>
+
+			</h:panelGrid>
+			<h:panelGrid columns="2" columnClasses="label, value">
+				<p:outputLabel value="CEP: " />
+				<h:outputText value="#{clienteController.entity.endereco.cep}"
+					styleClass="outputLabel" />
+
+				<p:outputLabel value="Rua: " />
+				<h:outputText value="#{clienteController.entity.endereco.rua}"
+					styleClass="outputLabel" />
+
+				<p:outputLabel value="Número: " />
+				<h:outputText value="#{clienteController.entity.endereco.numero}"
+					styleClass="outputLabel" />
+
+				<p:outputLabel value="Cidade: " />
+				<h:outputText
+					value="#{clienteController.entity.endereco.cidade.nome}-#{clienteController.entity.endereco.cidade.estado.nome}"
+					styleClass="outputLabel" />
+			</h:panelGrid>
+		</h:panelGrid>
+	</p:panel>
+</composite:implementation>
+</html>

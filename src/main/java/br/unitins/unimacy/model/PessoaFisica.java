@@ -29,9 +29,9 @@ public class PessoaFisica extends Pessoa {
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 	}
-	
-	public PessoaFisica(String nome, String sobreNome, Sexo sexo, String cpf, LocalDate dataNascimento, boolean ativo, Endereco endereco) {
-		super();
+
+	public PessoaFisica(String nome, String sobreNome, Sexo sexo, String cpf, LocalDate dataNascimento, boolean ativo) {
+		super(ativo);
 		this.nome = nome;
 		this.sobreNome = sobreNome;
 		this.sexo = sexo;
@@ -81,7 +81,7 @@ public class PessoaFisica extends Pessoa {
 
 	@Override
 	public String toString() {
-		return "PessoaFisica [nome=" + nome + ", sobreNome=" + sobreNome + ", sexo=" + sexo + ", cpf=" + cpf + ", rg="
-				+ ", dataNascimento=" + dataNascimento + "]";
+		return "PessoaFisica [nome=" + nome + ", sobreNome=" + sobreNome + ", sexo=" + sexo + ", cpf=" + cpf
+				+ ", dataNascimento=" + dataNascimento + "status " + isAtivo() + "]";
 	}
 }
