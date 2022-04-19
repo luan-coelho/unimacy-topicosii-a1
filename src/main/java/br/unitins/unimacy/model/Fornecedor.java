@@ -1,5 +1,8 @@
 package br.unitins.unimacy.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -55,6 +58,17 @@ public class Fornecedor extends DefaultEntity {
 
 	public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
 		this.pessoaJuridica = pessoaJuridica;
+	}
+	
+	public static List <Fornecedor> cargaFornecedor(){
+		List <Fornecedor> listaFornecedor = new ArrayList<>();
+		
+		listaFornecedor.add(new Fornecedor());
+		listaFornecedor.add(new Fornecedor());
+		listaFornecedor.add(new Fornecedor());
+		listaFornecedor.add(new Fornecedor());
+		
+		return listaFornecedor;
 	}
 
 }

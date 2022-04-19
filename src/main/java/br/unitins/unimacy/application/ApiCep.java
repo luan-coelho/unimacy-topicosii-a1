@@ -44,10 +44,8 @@ public class ApiCep {
 			return organizarCep(enderecoAux, pegarEstadoPorUf(enderecoAux.getUf()));
 
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 	}

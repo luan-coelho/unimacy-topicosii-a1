@@ -25,7 +25,7 @@
 				value="#{clienteController.listaCliente}" paginator="true" rows="10"
 				styleClass="products-table p-mt-5 p-mb-5" rowSelectMode="add"
 				paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
-				stickyHeader="true" stickyTopAt=".layout-topbar" stripedRows="true">
+				stickyTopAt=".layout-topbar" stripedRows="true">
 
 				<f:facet name="header">
 					<div class="products-table-header">
@@ -94,9 +94,10 @@
 					styleClass="ui-confirmdialog-no ui-button-flat" />
 			</p:confirmDialog>
 
-			<p:dialog id="cliente-info" widgetVar="editar-cliente" modal="true" onHide="PF('wiz').loadStep('tab0', false)"
-				draggable="false" header="Informações do Cliente" showEffect="fade"
-				minHeight="40" width="750">
+			<p:dialog id="cliente-info" widgetVar="editar-cliente" modal="true"
+				onHide="PF('wiz').loadStep('tab0', false)" draggable="false"
+				header="Informações do Cliente" showEffect="fade" minHeight="40"
+				width="750">
 
 				<p:wizard nextLabel="Prosseguir" backLabel="Voltar" widgetVar="wiz">
 					<p:tab id="tab0" title="Dados Pessoais">
@@ -116,12 +117,12 @@
 								rendered="#{clienteController.pessoaJuridica == false}">
 
 								<div class="ui-fluid p-formgrid p-grid">
-									<div class="p-field p-col-12 p-md-4">
+									<div class="p-field p-col-12 p-md-5">
 										<p:outputLabel for="nome" value="Nome" />
 										<p:inputText id="nome" type="text"
 											value="#{clienteController.entity.pessoa.nome}" />
 									</div>
-									<div class="p-field p-col-12 p-md-6">
+									<div class="p-field p-col-12 p-md-7">
 										<p:outputLabel for="sobrenome" value="Sobrenome" />
 										<p:inputText id="sobrenome" type="text"
 											value="#{clienteController.entity.pessoa.sobreNome}" />
@@ -175,30 +176,26 @@
 										placeholder="exemplo@email.com" id="email" type="email" />
 								</div>
 
-								<div class="p-field p-col-12 p-md-4">
+								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel for="phone" value="Telefone" />
-									<p:inputText
-										value="#{clienteController.entity.pessoa.telefone}" id="phone"
-										type="text" />
+									<p:inputMask mask="(99) 99999-9999" id="phone" maxlength="15"
+										value="#{clienteController.entity.pessoa.telefone}"/>
 								</div>
 							</div>
 
 						</p:panel>
 					</p:tab>
 					<p:tab title="Endereço">
-						<p:panel id="endereco"
-							header="Informe os dados de endereço do cliente">
+						<p:panel id="endereco" header="Informe os dados do Endereço">
 							<div class="ui-fluid p-formgrid p-grid">
 
-								<div class="ui-inputgroup p-field p-md-3">
+								<div class="p-field p-col-12 p-md-2">
 									<p:outputLabel value="CEP " />
 									<p:inputMask mask="99999-999" id="cep" maxlength="9"
-										value="#{clienteController.entity.endereco.cep}" />
-									<p:commandButton
-										actionListener="#{clienteController.buscarCep}"
-										icon="pi pi-search" process="@this @form:cep"
-										update="@form:endereco @form:growl"
-										styleClass="ui-button-info" />
+										value="#{clienteController.entity.endereco.cep}">
+										<p:ajax listener="#{clienteController.buscarCep}" event="blur"
+											process="@this @form:cep" update="@form:endereco @form:growl" />
+									</p:inputMask>
 								</div>
 
 								<div class="p-field p-col-12 p-md-6">
@@ -207,7 +204,7 @@
 										value="#{clienteController.entity.endereco.rua}" />
 								</div>
 
-								<div class="p-field p-col-12 p-md-3">
+								<div class="p-field p-col-12 p-md-2">
 									<p:outputLabel value="Número" />
 									<p:inputText id="numero"
 										value="#{clienteController.entity.endereco.numero}" />
@@ -217,6 +214,12 @@
 									<p:outputLabel value="Bairro" />
 									<p:inputText id="bairro"
 										value="#{clienteController.entity.endereco.bairro}" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-5">
+									<p:outputLabel value="Complemento" />
+									<p:inputText id="complemento"
+										value="#{clienteController.entity.endereco.complemento}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-5">
@@ -249,7 +252,8 @@
 							<p:commandButton value="Salvar" icon="pi pi-save"
 								styleClass="ui-button-success"
 								action="#{clienteController.cadastrar}" update="@form"
-								process="@this" onclick="PF('editar-cliente').hide()" oncomplete="PF('wiz').loadStep('tab0', false)" />
+								process="@this" onclick="PF('editar-cliente').hide()"
+								oncomplete="PF('wiz').loadStep('tab0', false)" />
 						</div>
 					</p:tab>
 

@@ -9,48 +9,75 @@
 </composite:interface>
 <composite:implementation>
 	<p:panel id="confirmar" header="Revise os dados">
-		<h:panelGrid columns="2" styleClass="p-d-flex p-jc-between">
-			<h:panelGrid columns="2" columnClasses="label, value">
+		<div class="ui-fluid p-formgrid p-grid">
+			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Nome Completo: " />
 				<h:outputText
 					value="#{clienteController.entity.pessoa.nome.trim()} #{clienteController.entity.pessoa.sobreNome.trim()}"
 					styleClass="outputLabel" />
+			</div>
 
+			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="CPF: " />
 				<h:outputText value="#{clienteController.entity.pessoa.cpf}"
 					styleClass="outputLabel" />
+			</div>
 
+			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Sexo: " />
 				<h:outputText value="#{clienteController.entity.pessoa.sexo.label}"
 					styleClass="outputLabel" />
-
+			</div>
+			<div class="p-field p-col-12 p-md-6">
 				<h:outputLabel value="Data de Nascimento: " />
 				<h:outputText
 					value="#{clienteController.entity.pessoa.dataNascimento}"
 					styleClass="outputLabel">
 					<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 				</h:outputText>
-
-			</h:panelGrid>
-			<h:panelGrid columns="2" columnClasses="label, value">
+			</div>
+			<div class="p-field p-col-12 p-md-6">
+				<p:outputLabel value="Email: " />
+				<h:outputText value="#{clienteController.entity.email}"
+					styleClass="outputLabel" />
+			</div>
+			<div class="p-field p-col-12 p-md-6">
+				<p:outputLabel value="Telefone: " />
+				<h:outputText value="#{clienteController.entity.pessoa.telefone}"
+					styleClass="outputLabel" />
+			</div>
+			
+			 <p:divider />
+			 	<h4>Endereço</h4>
+			  <p:divider />
+			
+			<div class="p-field p-col-12 p-md-3">
 				<p:outputLabel value="CEP: " />
 				<h:outputText value="#{clienteController.entity.endereco.cep}"
 					styleClass="outputLabel" />
-
+			</div>
+			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Rua: " />
 				<h:outputText value="#{clienteController.entity.endereco.rua}"
 					styleClass="outputLabel" />
-
+			</div>
+			<div class="p-field p-col-12 p-md-2">
 				<p:outputLabel value="Número: " />
 				<h:outputText value="#{clienteController.entity.endereco.numero}"
 					styleClass="outputLabel" />
-
+			</div>
+			<div class="p-field p-col-12 p-md-4">
+				<p:outputLabel value="Bairro: " />
+				<h:outputText value="#{clienteController.entity.endereco.bairro}"
+					styleClass="outputLabel" />
+			</div>
+			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Cidade: " />
 				<h:outputText
 					value="#{clienteController.entity.endereco.cidade.nome}-#{clienteController.entity.endereco.cidade.estado.nome}"
 					styleClass="outputLabel" />
-			</h:panelGrid>
-		</h:panelGrid>
+			</div>
+		</div>
 	</p:panel>
 </composite:implementation>
 </html>
