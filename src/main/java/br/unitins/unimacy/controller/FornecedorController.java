@@ -15,6 +15,7 @@ import br.unitins.unimacy.model.Cidade;
 import br.unitins.unimacy.model.Endereco;
 import br.unitins.unimacy.model.Estado;
 import br.unitins.unimacy.model.Fornecedor;
+import br.unitins.unimacy.model.PessoaJuridica;
 import br.unitins.unimacy.repository.FornecedorRepository;
 
 @Named
@@ -32,7 +33,7 @@ public class FornecedorController extends Controller<Fornecedor> {
 	@Override
 	public Fornecedor getEntity() {
 		if (entity == null) {
-			entity = new Fornecedor();
+			entity = new Fornecedor(new PessoaJuridica());
 			entity.getPessoaJuridica().setEndereco(new Endereco(new Cidade(new Estado())));
 		}
 

@@ -101,6 +101,10 @@ public class ClienteController extends Controller<Cliente> {
 	public void alterar(Cliente cliente) {
 		entity = cliente;
 
+		if(cliente.getPessoa() instanceof PessoaJuridica) {
+			System.out.println("Pessoa Juridica");
+			isPessoaJuridica = true;
+		}
 		System.out.println(entity);
 		// super.alterar();
 	}

@@ -5,8 +5,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
 
 <h:head>
 	<meta charset="utf-8" />
@@ -26,74 +26,13 @@
 <h:body style="background: #E1E1E6;" class="dark">
 	<h:form id="form" styleClass="form-menu-bar">
 
-		<nav class="sidebar close">
-			<header>
-				<div class="image-text">
-					<span class="image"> <img src="resources/images/logo.png"
-						alt="" /></span>
-
-					<div class="text logo-text">
-						<span class="name">Unimacy</span> <span class="profession">Gestão</span>
-					</div>
-				</div>
-
-				<i class='bx bx-chevron-right toggle'></i>
-			</header>
-
-			<div class="menu-bar">
-				<div class="menu">
-
-					<li class="search-box"><i class='bx bx-search icon'></i> <input
-						type="text" placeholder="Pesquisar..." /></li>
-
-					<ul class="menu-links">
-						<li class="nav-link"><a href="login.xhtml"> <i
-								class='bx bx-home-alt bx-md icon'></i> <span
-								class="text nav-text">Dashboard</span>
-						</a></li>
-
-						<li class="nav-link"><a href="produtos.xhtml"> <i
-								class='bx bx-package bx-md icon'></i> <span
-								class="text nav-text">Produtos</span>
-						</a></li>
-
-						<li class="nav-link"><a href="clientes.xhtml"> <i
-								class='bx bxs-user-circle bx-md icon'></i> <span
-								class="text nav-text">Clientes</span>
-						</a></li>
-					</ul>
-				</div>
-
-				<div class="bottom-content">
-					<li class=""><a href="#"> <i class='bx bx-log-out icon'></i>
-							<span class="text nav-text">Sair</span>
-					</a></li>
-
-					<li class="mode">
-						<div class="sun-moon">
-							<i class='bx bx-moon icon moon'></i> <i
-								class='bx bx-sun icon sun'></i>
-						</div> <span class="mode-text text">Light mode</span>
-
-						<div class="toggle-switch">
-							<span class="switch"></span>
-						</div>
-					</li>
-				</div>
-			</div>
-		</nav>
-
+		<components:SideNavBar/>
+		
 		<ui:insert name="conteudo">
 
 		</ui:insert>
 
-
-		<footer>
-			<div>
-				<p>© 2022 Copyright Unimacy<a class="text-white" href="https://github.com/luan-coelho"><i
-					class='bx bxl-github bx-sm'></i>Luan Côelho</a></p>
-			</div>
-		</footer>
+		<components:Footer/>
 
 		<h:outputScript library="js" name="template.js" />
 	</h:form>

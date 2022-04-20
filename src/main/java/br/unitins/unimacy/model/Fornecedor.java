@@ -10,46 +10,15 @@ public class Fornecedor extends DefaultEntity {
 
 	private static final long serialVersionUID = 5302778775042634051L;
 
-	private String razaoSocial;
-	private String nomeFantasia;
-	private String inscEstadual;
-
 	private PessoaJuridica pessoaJuridica;
 
 	public Fornecedor() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Fornecedor(String razaoSocial, String nomeFantasia, String inscEstadual, PessoaJuridica pessoaJuridica) {
+	public Fornecedor(PessoaJuridica pessoaJuridica) {
 		super();
-		this.razaoSocial = razaoSocial;
-		this.nomeFantasia = nomeFantasia;
-		this.inscEstadual = inscEstadual;
 		this.pessoaJuridica = pessoaJuridica;
-	}
-
-	public String getRazaoSocial() {
-		return razaoSocial;
-	}
-
-	public void setRazaoSocial(String razaoSocial) {
-		this.razaoSocial = razaoSocial;
-	}
-
-	public String getNomeFantasia() {
-		return nomeFantasia;
-	}
-
-	public void setNomeFantasia(String nomeFantasia) {
-		this.nomeFantasia = nomeFantasia;
-	}
-
-	public String getInscEstadual() {
-		return inscEstadual;
-	}
-
-	public void setInscEstadual(String inscEstadual) {
-		this.inscEstadual = inscEstadual;
 	}
 
 	public PessoaJuridica getPessoaJuridica() {
@@ -60,15 +29,18 @@ public class Fornecedor extends DefaultEntity {
 		this.pessoaJuridica = pessoaJuridica;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Fornecedor [pessoaJuridica=" + pessoaJuridica.toString() + "]";
+	}
+
 	public static List <Fornecedor> cargaFornecedor(){
 		List <Fornecedor> listaFornecedor = new ArrayList<>();
 		
-		listaFornecedor.add(new Fornecedor());
-		listaFornecedor.add(new Fornecedor());
-		listaFornecedor.add(new Fornecedor());
-		listaFornecedor.add(new Fornecedor());
+		listaFornecedor.add(new Fornecedor(new PessoaJuridica("33333333334", "Coca-cola","cocacola", "23256")));
+		listaFornecedor.add(new Fornecedor(new PessoaJuridica("33333333334", "Unitins","Unitins", "23256")));
 		
 		return listaFornecedor;
 	}
-
 }

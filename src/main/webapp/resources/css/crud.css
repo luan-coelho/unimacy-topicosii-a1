@@ -36,3 +36,8 @@
 	width: 33%;
 	padding: 4px;
 }
+
+.toolbar-dataTable{
+	display: flex;
+	justify-content: space-between;
+}

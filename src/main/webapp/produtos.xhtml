@@ -6,21 +6,210 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough" dir="ltr">
+	xmlns:components="http://java.sun.com/jsf/composite/components">
 
 <ui:composition template="template.xhtml">
 
 	<ui:define name="head">
-		<h:outputStylesheet library="css" name="cadastro2.css" />
+		<h:outputStylesheet library="webjars"
+			name="primeflex/2.0.0/primeflex.min.css" />
+		<h:outputStylesheet library="css" name="crud.css" />
 	</ui:define>
 
 	<ui:define name="conteudo">
 
-		<h:panelGroup id="cadastro" layout="block" styleClass="ui-fluid">
-			<div class="container">
-				<h1>Produtos</h1>
-			</div>
-		</h:panelGroup>
+		<p:growl id="growl" />
+
+		<div class="p-d-flex p-jc-center">
+			<p:dataTable id="dataTable" var="produto" style="width: 80%;"
+				value="#{produtoController.listaProduto}" paginator="true" rows="10"
+				styleClass="products-table p-mt-5 p-mb-5" rowSelectMode="add"
+				paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
+				stickyTopAt=".layout-topbar" stripedRows="true">
+
+				<f:facet name="header">
+					<div class="products-table-header">
+
+						<p:toolbar>
+							<p:toolbarGroup align="center">
+								<h2 class="p-mb-2">Gerência de Produtos</h2>
+
+								<p:commandButton value="Cadastrar produto" icon="pi pi-plus"
+									styleClass="ui-button-success"
+									onclick="PF('editar-produto').show()">
+
+									<p:ajax listener="#{produtoController.limpar}" process="@this"
+										update="@form:dataTable" />
+								</p:commandButton>
+							</p:toolbarGroup>
+						</p:toolbar>
+					</div>
+				</f:facet>
+
+				<p:column sortBy="#{produto.nome}" headerText="Nome"
+					filterBy="#{produto.nome}">
+					<h:outputText value="#{produto.nome}" />
+				</p:column>
+
+				<p:column sortBy="#{produto.quantEstoque}" headerText="Quantidade"
+					filterBy="#{produto.quantEstoque}">
+					<h:outputText value="#{produto.quantEstoque}" />
+				</p:column>
+
+				<p:column sortBy="#{produto.preco}" headerText="Preço"
+					filterBy="#{produto.preco}">
+					<h:outputText value="#{produto.preco}" />
+				</p:column>
+
+				<p:column sortBy="#{produto.peso}" headerText="Peso"
+					filterBy="#{produto.peso}">
+					<h:outputText value="#{produto.peso}" />
+				</p:column>
+
+				<p:column sortBy="#{produto.categoria}" headerText="Categoria"
+					filterBy="#{produto.categoria}">
+					<h:outputText value="#{produto.categoria}" />
+				</p:column>
+
+				<p:column sortBy="#{produto.lote}" headerText="Lote"
+					filterBy="#{produto.lote}">
+					<h:outputText value="#{produto.categoria}" />
+				</p:column>
+
+				<p:column exportable="false">
+					<p:commandButton icon="pi pi-search"
+						styleClass="edit-button rounded-button ui-button-help p-mr-1"
+						onclick="PF('resumo-produto').show()">
+						<p:ajax process="@this" update="@form:confirmar"
+							listener="#{produtoController.alterar(produto)}" />
+					</p:commandButton>
+					<p:commandButton icon="pi pi-pencil"
+						onclick="PF('editar-produto').show()"
+						styleClass="edit-button rounded-button ui-button-info p-mr-1">
+						<p:ajax process="@this" update="@form:produto"
+							listener="#{produtoController.alterar(produto)}" />
+					</p:commandButton>
+					<p:commandButton class="ui-button-danger rounded-button"
+						icon="pi pi-trash" process="@this">
+						<p:confirm header="Você tem certeza?"
+							message="O registro deste produto será excluído definitivamente"
+							icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				responsive="true" width="450">
+				<p:commandButton value="Cancelar" type="button"
+					styleClass="ui-confirmdialog-yes" />
+				<p:commandButton value="Confirmar" type="button"
+					action="#{produtoController.listaproduto.remove(produto)}"
+					process="@this" update="@form"
+					styleClass="ui-confirmdialog-no ui-button-flat" />
+			</p:confirmDialog>
+
+			<p:dialog id="produto-info" widgetVar="editar-produto" modal="true"
+				onHide="PF('wiz').loadStep('tab0', false)" draggable="false"
+				header="Informações do Produto" showEffect="fade" minHeight="40"
+				width="750">
+
+				<p:wizard nextLabel="Prosseguir" backLabel="Voltar" widgetVar="wiz">
+					<p:tab id="tab0" title="Dados Básicos">
+						<p:panel id="produto">
+
+							<div class="ui-fluid p-formgrid p-grid">
+								<div class="p-field p-col-12 p-md-5">
+									<p:outputLabel for="nome" value="Nome" />
+									<p:inputText id="nome" type="text"
+										value="#{produtoController.entity.nome}" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-5">
+									<p:outputLabel for="categoria" value="Categoria" />
+									<p:selectOneMenu id="categoria"
+										value="#{produtoController.entity.categoria}">
+										<f:selectItem itemLabel="Selecione uma Categoria" itemValue="#{null}" />
+										<f:selectItem itemLabel="Option1" itemValue="Option1" />
+										<f:selectItem itemLabel="Option2" itemValue="Option2" />
+										<f:selectItem itemLabel="Option3" itemValue="Option3" />
+										<f:facet name="footer">
+											<p:divider styleClass="p-mt-0" />
+											<h:outputText value="3 options" style="font-weight:bold;" />
+										</f:facet>
+									</p:selectOneMenu>
+								</div>
+
+								<div class="p-field p-col-12 p-md-12">
+									<p:outputLabel for="descricao" value="Descrição" />
+									<p:inputTextarea rows="6" cols="20" id="descricao" type="text"
+										value="#{produtoController.entity.descricao}" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel for="estoque" value="Quantidade Estoque" />
+									<p:spinner id="estoque"
+										value="#{produtoController.entity.quantEstoque}"
+										buttons="horizontal" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel for="preco" value="Preço" />
+									<p:inputNumber id="preco"
+										value="#{produtoController.entity.quantEstoque}" symbol="R$"
+										symbolPosition="p" decimalSeparator="," thousandSeparator="." />
+								</div>
+
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel for="fabricacao" value="Data de Fabricação" />
+									<p:datePicker id="fabricacao"
+										value="#{produtoController.entity.fabricacao}"
+										monthNavigator="true" pattern="dd/MM/yyyy" mask="99/99/9999"
+										showIcon="true" showButtonBar="true" showOnFocus="false" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel for="validade" value="Data de Validade" />
+									<p:datePicker id="validade"
+										value="#{produtoController.entity.validade}"
+										monthNavigator="true" pattern="dd/MM/yyyy" mask="99/99/9999"
+										showIcon="true" showButtonBar="true" showOnFocus="false" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-4">
+									<p:outputLabel for="lote" value="Lote" />
+									<p:inputText id="lote" type="text"
+										value="#{produtoController.entity.lote}" />
+								</div>
+							</div>
+
+						</p:panel>
+					</p:tab>
+
+					<p:tab title="Confirmar Dados">
+						<components:Summary />
+						<div class="p-d-flex p-jc-md-end p-mt-2">
+							<p:commandButton value="Salvar" icon="pi pi-save"
+								styleClass="ui-button-success"
+								action="#{clienteController.cadastrar}" update="@form"
+								process="@this" onclick="PF('editar-cliente').hide()"
+								oncomplete="PF('wiz').loadStep('tab0', false)" />
+						</div>
+					</p:tab>
+
+				</p:wizard>
+			</p:dialog>
+
+			<p:dialog id="cliente-info-resumo" widgetVar="resumo-cliente"
+				modal="true" draggable="false" header="Informações do Cliente"
+				showEffect="fade" minHeight="40" width="750">
+				<h:panelGroup id="confirmar">
+					<components:Summary />
+				</h:panelGroup>
+			</p:dialog>
+
+		</div>
+
 	</ui:define>
 </ui:composition>
 </html>

@@ -6,14 +6,44 @@ public class PessoaJuridica extends Pessoa {
 
 	// @CNPJ(message = "Informe um CNPJ válido")
 	private String cnpj;
+	private String razaoSocial;
+	private String nomeFantasia;
+	private String inscEstadual;
 
 	public PessoaJuridica() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PessoaJuridica(String cnpj) {
+	public PessoaJuridica(String cnpj, String razaoSocial, String nomeFantasia, String inscEstadual) {
 		super();
 		this.cnpj = cnpj;
+		this.razaoSocial = razaoSocial;
+		this.nomeFantasia = nomeFantasia;
+		this.inscEstadual = inscEstadual;
+	}
+
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+
+	public String getNomeFantasia() {
+		return nomeFantasia;
+	}
+
+	public void setNomeFantasia(String nomeFantasia) {
+		this.nomeFantasia = nomeFantasia;
+	}
+
+	public String getInscEstadual() {
+		return inscEstadual;
+	}
+
+	public void setInscEstadual(String inscEstadual) {
+		this.inscEstadual = inscEstadual;
 	}
 
 	public String getCnpj() {
@@ -24,4 +54,9 @@ public class PessoaJuridica extends Pessoa {
 		this.cnpj = cnpj;
 	}
 
+	@Override
+	public String toString() {
+		return "PessoaJuridica [cnpj=" + cnpj + ", razaoSocial=" + razaoSocial + ", nomeFantasia=" + nomeFantasia
+				+ ", inscEstadual=" + inscEstadual + "]";
+	}
 }

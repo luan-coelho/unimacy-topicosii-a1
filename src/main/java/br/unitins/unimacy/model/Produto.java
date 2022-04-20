@@ -11,7 +11,7 @@ public class Produto extends DefaultEntity {
 	private String nome;
 	private String descricao;
 	private Integer quantEstoque;
-	private BigDecimal valor;
+	private BigDecimal preco;
 	private Double peso;
 	private LocalDate validade;
 	private LocalDate fabricacao;
@@ -24,14 +24,14 @@ public class Produto extends DefaultEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Produto(String nome, String descricao, Integer quantEstoque, BigDecimal valor, Double peso,
+	public Produto(String nome, String descricao, Integer quantEstoque, BigDecimal preco, Double peso,
 			LocalDate validade, LocalDate fabricacao, String lote, List<Categoria> categoria, Unidade unidade,
 			Fornecedor fornecedor) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
 		this.quantEstoque = quantEstoque;
-		this.valor = valor;
+		this.preco = preco;
 		this.peso = peso;
 		this.validade = validade;
 		this.fabricacao = fabricacao;
@@ -65,12 +65,12 @@ public class Produto extends DefaultEntity {
 		this.quantEstoque = quantEstoque;
 	}
 
-	public BigDecimal getValor() {
-		return valor;
+	public BigDecimal getPreco() {
+		return preco;
 	}
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
 	}
 
 	public Double getPeso() {
