@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<composite:interface>
+</composite:interface>
+<composite:implementation>
+
+	<p:panel id="cadastro-categoria">
+		<div class="ui-fluid p-formgrid p-grid">
+
+			<div class="p-field p-md-10">
+				<p:outputLabel value="Nome " />
+				<p:inputText id="nome" type="text"
+					value="#{categoriaController.entity.nome}" />
+			</div>
+		</div>
+	</p:panel>
+
+	<p:commandButton value="Cadastrar" icon="pi pi-save"
+		styleClass="ui-button-success" process="@this" update="@form:produto"
+		onclick="PF('cadastro-categoria').hide()"
+		oncomplete="PF('wiz').loadStep('tab0', false)" />
+
+</composite:implementation>
+</html>

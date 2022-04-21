@@ -41,6 +41,11 @@ public class Produto extends DefaultEntity {
 		this.fornecedor = fornecedor;
 	}
 
+	public Produto(List<Categoria> categoria) {
+		super();
+		this.categoria = categoria;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -127,6 +132,13 @@ public class Produto extends DefaultEntity {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [nome=" + nome + ", descricao=" + descricao + ", quantEstoque=" + quantEstoque + ", preco="
+				+ preco + ", peso=" + peso + ", validade=" + validade + ", fabricacao=" + fabricacao + ", lote=" + lote
+				+ ", categoria=" + categoria + ", unidade=" + unidade + ", fornecedor=" + fornecedor + "]";
 	}
 
 }

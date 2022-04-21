@@ -73,7 +73,7 @@
 
 				<p:column sortBy="#{produto.lote}" headerText="Lote"
 					filterBy="#{produto.lote}">
-					<h:outputText value="#{produto.categoria}" />
+					<h:outputText value="#{produto.lote}" />
 				</p:column>
 
 				<p:column exportable="false">
@@ -127,17 +127,17 @@
 
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel for="categoria" value="Categoria" />
-									<p:selectOneMenu id="categoria"
+
+									<p:selectCheckboxMenu id="categoria" filter="true"
+										filterMatchMode="contains"  multiple="true"
 										value="#{produtoController.entity.categoria}">
-										<f:selectItem itemLabel="Selecione uma Categoria" itemValue="#{null}" />
-										<f:selectItem itemLabel="Option1" itemValue="Option1" />
-										<f:selectItem itemLabel="Option2" itemValue="Option2" />
-										<f:selectItem itemLabel="Option3" itemValue="Option3" />
-										<f:facet name="footer">
-											<p:divider styleClass="p-mt-0" />
-											<h:outputText value="3 options" style="font-weight:bold;" />
-										</f:facet>
-									</p:selectOneMenu>
+										<f:selectItems value="#{produtoController.listaCategoria}"
+											var="categoria" itemLabel="#{categoria.nome}"
+											itemValue="#{categoria}" />
+									</p:selectCheckboxMenu>
+									<p:commandButton value="Adicionar Categoria" type="button"
+										styleClass="ui-confirmdialog-yes"
+										onclick="PF('cadastro-categoria').show()" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-12">
@@ -156,7 +156,14 @@
 								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel for="preco" value="Preço" />
 									<p:inputNumber id="preco"
-										value="#{produtoController.entity.quantEstoque}" symbol="R$"
+										value="#{produtoController.entity.preco}" symbol="R$"
+										symbolPosition="p" decimalSeparator="," thousandSeparator="." />
+								</div>
+								
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel for="peso" value="Peso" />
+									<p:inputNumber id="peso"
+										value="#{produtoController.entity.peso}"
 										symbolPosition="p" decimalSeparator="," thousandSeparator="." />
 								</div>
 
@@ -187,12 +194,12 @@
 					</p:tab>
 
 					<p:tab title="Confirmar Dados">
-						<components:Summary />
+						<components:SummaryProduto />
 						<div class="p-d-flex p-jc-md-end p-mt-2">
 							<p:commandButton value="Salvar" icon="pi pi-save"
 								styleClass="ui-button-success"
-								action="#{clienteController.cadastrar}" update="@form"
-								process="@this" onclick="PF('editar-cliente').hide()"
+								action="#{produtoController.cadastrar}" update="@form"
+								process="@this" onclick="PF('editar-produto').hide()"
 								oncomplete="PF('wiz').loadStep('tab0', false)" />
 						</div>
 					</p:tab>
@@ -200,12 +207,17 @@
 				</p:wizard>
 			</p:dialog>
 
-			<p:dialog id="cliente-info-resumo" widgetVar="resumo-cliente"
-				modal="true" draggable="false" header="Informações do Cliente"
+			<p:dialog id="produto-info-resumo" widgetVar="resumo-produto"
+				modal="true" draggable="false" header="Informações do Produto"
 				showEffect="fade" minHeight="40" width="750">
 				<h:panelGroup id="confirmar">
-					<components:Summary />
+					<components:SummaryProduto />
 				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog header="Cadastrar Categoria" widgetVar="cadastro-categoria"
+				minHeight="40" width="350" draggable="false" showEffect="fade">
+				<components:DialogCategoria />
 			</p:dialog>
 
 		</div>

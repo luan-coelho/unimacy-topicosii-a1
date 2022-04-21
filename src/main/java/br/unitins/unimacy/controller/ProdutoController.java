@@ -1,11 +1,13 @@
 package br.unitins.unimacy.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import br.unitins.unimacy.model.Categoria;
 import br.unitins.unimacy.model.Produto;
 import br.unitins.unimacy.repository.ProdutoRepository;
 
@@ -33,7 +35,7 @@ public class ProdutoController extends Controller<Produto> {
 	public List<Produto> getListaProduto() {
 		if (listaProduto == null) {
 			listaProduto = new ArrayList<>();
-			listaProduto.add(new Produto());
+			listaProduto.add(new Produto(Arrays.asList(new Categoria("Saúde"))));
 		}
 		return listaProduto;
 	}
@@ -42,6 +44,10 @@ public class ProdutoController extends Controller<Produto> {
 		this.listaProduto = listaProduto;
 	}
 
+	public List <Categoria> getListaCategoria() {
+		return Arrays.asList(new Categoria("Genérico"), new Categoria("Saúde"), new Categoria("Medicamentos"), new Categoria("Home Care"));
+	}
+	
 	@Override
 	public void limpar() {
 		super.limpar();
