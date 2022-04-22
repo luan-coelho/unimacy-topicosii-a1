@@ -11,6 +11,7 @@ import com.gtbr.exception.ViaCepFormatException;
 import br.unitins.unimacy.application.ApiCep;
 import br.unitins.unimacy.application.Session;
 import br.unitins.unimacy.application.Util;
+import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.Cidade;
 import br.unitins.unimacy.model.Endereco;
 import br.unitins.unimacy.model.Estado;
@@ -42,7 +43,12 @@ public class FornecedorController extends Controller<Fornecedor> {
 
 	public List<Fornecedor> getListaFornecedor() {
 		if (listaFornecedor == null) {
-			listaFornecedor = Fornecedor.cargaFornecedor();
+			try {
+				listaFornecedor = getRepository().findAll();
+			} catch (RepositoryException e) {
+				Util.addErrorMessage("Falha ao buscar dados no banco");
+				e.printStackTrace();
+			}
 		}
 		return listaFornecedor;
 	}
@@ -53,6 +59,7 @@ public class FornecedorController extends Controller<Fornecedor> {
 
 	@Override
 	public void limpar() {
+		this.listaFornecedor = null;
 		super.limpar();
 	}
 
@@ -69,23 +76,20 @@ public class FornecedorController extends Controller<Fornecedor> {
 
 	}
 	
+	@Override
+	public void selecionarItem(Fornecedor obj) {
+		super.selecionarItem(obj);
+	}
+	
 	public void onItemSelect() {
 		String nomeEstado = entity.getPessoaJuridica().getEndereco().getCidade().getEstado().getNome();
 
 		Session.getInstance().set("nome-estado", nomeEstado);
 	}
-
 	
-	public void alterar(Fornecedor Fornecedor) {
-		entity = Fornecedor;
-
-		System.out.println(entity);
-		// super.alterar();
-	}
-
-	public void cadastrar() {
-		System.out.println(entity.toString());
-		limpar();
+	public void excluir(Fornecedor fornecedor) {
+		this.entity = fornecedor;
+		super.excluir();
 	}
 	
 }

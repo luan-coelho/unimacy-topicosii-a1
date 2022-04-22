@@ -1,6 +1,7 @@
 package br.unitins.unimacy.repository;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -89,6 +90,22 @@ public class Repository<T extends DefaultEntity> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<T> findAll() throws RepositoryException {
+		try {
+			// obtendo o tipo da classe de forma generica (a classe deve ser publica)
+			final ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+			Class<T> tClass = (Class<T>) (type).getActualTypeArguments()[0];
+			
+			return getEntityManager().createQuery("Select o FROM "+ tClass.getSimpleName() +" o").getResultList();
+			
+		} catch (Exception e) {
+			System.out.println("Erro ao executar o método de find.");
+			e.printStackTrace();
+			throw new RepositoryException("Erro ao buscar os dados");
+		}
+	}
+	
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}

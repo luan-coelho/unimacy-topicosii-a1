@@ -15,7 +15,7 @@ public class Cliente extends Pessoa {
 	private static final long serialVersionUID = 3809727639444385556L;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="pessoa_id", unique=true)
+	@JoinColumn(unique=true)
 	private Pessoa pessoa;
 
 	public Cliente() {

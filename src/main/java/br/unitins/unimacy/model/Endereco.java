@@ -1,8 +1,8 @@
 package br.unitins.unimacy.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Endereco extends DefaultEntity {
@@ -15,8 +15,7 @@ public class Endereco extends DefaultEntity {
 	private String complemento;
 	private String cep;
 
-	@OneToOne 
-	@JoinColumn(name="cidade_id")
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Cidade cidade;
 
 	public Endereco() {

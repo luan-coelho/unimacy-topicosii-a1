@@ -2,8 +2,11 @@ package br.unitins.unimacy.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Produto extends DefaultEntity {
 
 	private static final long serialVersionUID = 8466588015114273678L;
@@ -16,7 +19,9 @@ public class Produto extends DefaultEntity {
 	private LocalDate validade;
 	private LocalDate fabricacao;
 	private String lote;
-	private List<Categoria> categoria;
+	
+	@ManyToOne
+	private Categoria categoria;
 	private Unidade unidade;
 	private Fornecedor fornecedor;
 
@@ -25,7 +30,7 @@ public class Produto extends DefaultEntity {
 	}
 
 	public Produto(String nome, String descricao, Integer quantEstoque, BigDecimal preco, Double peso,
-			LocalDate validade, LocalDate fabricacao, String lote, List<Categoria> categoria, Unidade unidade,
+			LocalDate validade, LocalDate fabricacao, String lote, Categoria categoria, Unidade unidade,
 			Fornecedor fornecedor) {
 		super();
 		this.nome = nome;
@@ -41,7 +46,7 @@ public class Produto extends DefaultEntity {
 		this.fornecedor = fornecedor;
 	}
 
-	public Produto(List<Categoria> categoria) {
+	public Produto(Categoria categoria) {
 		super();
 		this.categoria = categoria;
 	}
@@ -110,15 +115,18 @@ public class Produto extends DefaultEntity {
 		this.lote = lote;
 	}
 
-	public List<Categoria> getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(List<Categoria> categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
 	public Unidade getUnidade() {
+		if(unidade == null) {
+			unidade = new Unidade();
+		}
 		return unidade;
 	}
 

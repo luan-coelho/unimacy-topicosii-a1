@@ -1,8 +1,11 @@
 package br.unitins.unimacy.controller;
 
+import java.util.List;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.Categoria;
 import br.unitins.unimacy.repository.CategoriaRepository;
 
@@ -15,6 +18,19 @@ public class CategoriaController extends Controller<Categoria> {
 	public CategoriaController() {
 		super(new CategoriaRepository());
 	}
+	
+	public List <Categoria> getListaCategoria() {
+		List <Categoria> listaCategoria = null;
+		
+		try {
+			listaCategoria = getRepository().findAll();
+		} catch (RepositoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return listaCategoria;
+	}
 
 	@Override
 	public Categoria getEntity() {
@@ -24,15 +40,15 @@ public class CategoriaController extends Controller<Categoria> {
 
 		return entity;
 	}
-
-	@Override
-	public void limpar() {
-		super.limpar();
+	
+	public void excluir(Categoria categoria) {
+		entity = categoria;
+		System.out.println(entity);
+		super.excluir();
 	}
-
-	public void cadastrar() {
-		System.out.println(entity.toString());
-		limpar();
+	
+	public void selecionarItem(Categoria categoria) {
+		this.entity = categoria;
 	}
 
 }

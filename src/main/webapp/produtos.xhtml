@@ -35,12 +35,9 @@
 								<h2 class="p-mb-2">Gerência de Produtos</h2>
 
 								<p:commandButton value="Cadastrar produto" icon="pi pi-plus"
-									styleClass="ui-button-success"
-									onclick="PF('editar-produto').show()">
-
-									<p:ajax listener="#{produtoController.limpar}" process="@this"
-										update="@form:dataTable" />
-								</p:commandButton>
+									styleClass="ui-button-success" process="@this"
+									actionListener="#{produtoController.limpar}"
+									update="@form:produto" onclick="PF('editar-produto').show()" />
 							</p:toolbarGroup>
 						</p:toolbar>
 					</div>
@@ -58,7 +55,7 @@
 
 				<p:column sortBy="#{produto.preco}" headerText="Preço"
 					filterBy="#{produto.preco}">
-					<h:outputText value="#{produto.preco}" />
+					<h:outputText value="R$#{produto.preco}" />
 				</p:column>
 
 				<p:column sortBy="#{produto.peso}" headerText="Peso"
@@ -68,7 +65,7 @@
 
 				<p:column sortBy="#{produto.categoria}" headerText="Categoria"
 					filterBy="#{produto.categoria}">
-					<h:outputText value="#{produto.categoria}" />
+					<h:outputText value="#{produto.categoria.nome}" />
 				</p:column>
 
 				<p:column sortBy="#{produto.lote}" headerText="Lote"
@@ -81,16 +78,17 @@
 						styleClass="edit-button rounded-button ui-button-help p-mr-1"
 						onclick="PF('resumo-produto').show()">
 						<p:ajax process="@this" update="@form:confirmar"
-							listener="#{produtoController.alterar(produto)}" />
+							listener="#{produtoController.selecionarItem(produto)}" />
 					</p:commandButton>
 					<p:commandButton icon="pi pi-pencil"
 						onclick="PF('editar-produto').show()"
 						styleClass="edit-button rounded-button ui-button-info p-mr-1">
 						<p:ajax process="@this" update="@form:produto"
-							listener="#{produtoController.alterar(produto)}" />
+							listener="#{produtoController.selecionarItem(produto)}" />
 					</p:commandButton>
 					<p:commandButton class="ui-button-danger rounded-button"
-						icon="pi pi-trash" process="@this">
+						icon="pi pi-trash" action="#{produtoController.excluir(produto)}"
+						process="@this" update="@form:dataTable">
 						<p:confirm header="Você tem certeza?"
 							message="O registro deste produto será excluído definitivamente"
 							icon="pi pi-exclamation-triangle" />
@@ -102,11 +100,10 @@
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 				responsive="true" width="450">
 				<p:commandButton value="Cancelar" type="button"
-					styleClass="ui-confirmdialog-yes" />
+					styleClass="ui-confirmdialog-no" />
 				<p:commandButton value="Confirmar" type="button"
-					action="#{produtoController.listaproduto.remove(produto)}"
-					process="@this" update="@form"
-					styleClass="ui-confirmdialog-no ui-button-flat" />
+					update="@form:dataTable"
+					styleClass="ui-confirmdialog-yes ui-button-flat" />
 			</p:confirmDialog>
 
 			<p:dialog id="produto-info" widgetVar="editar-produto" modal="true"
@@ -118,6 +115,8 @@
 					<p:tab id="tab0" title="Dados Básicos">
 						<p:panel id="produto">
 
+							<p:messages id="messages" closable="true" />
+
 							<div class="ui-fluid p-formgrid p-grid">
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel for="nome" value="Nome" />
@@ -125,25 +124,38 @@
 										value="#{produtoController.entity.nome}" />
 								</div>
 
-								<div class="p-field p-col-12 p-md-5">
+								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel for="categoria" value="Categoria" />
 
-									<p:selectCheckboxMenu id="categoria" filter="true"
-										filterMatchMode="contains"  multiple="true"
+									<p:selectOneMenu id="categoria" filter="true"
+										converter="categoriaConverter"
 										value="#{produtoController.entity.categoria}">
-										<f:selectItems value="#{produtoController.listaCategoria}"
+										<f:selectItems value="#{categoriaController.listaCategoria}"
 											var="categoria" itemLabel="#{categoria.nome}"
 											itemValue="#{categoria}" />
-									</p:selectCheckboxMenu>
-									<p:commandButton value="Adicionar Categoria" type="button"
-										styleClass="ui-confirmdialog-yes"
+									</p:selectOneMenu>
+
+									<p:commandButton value="Categoria" type="button"
+										styleClass="ui-confirmdialog-yes" icon="pi pi-plus"
 										onclick="PF('cadastro-categoria').show()" />
+								</div>
+
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel for="unidade" value="Unidade" />
+
+									<p:selectOneMenu id="unidade" filter="true"
+										value="#{produtoController.entity.unidade.unidadeMedida}">
+										<f:selectItems value="#{produtoController.unidadeMedida}"
+											var="unidade" itemLabel="#{unidade}" itemValue="#{unidade}" />
+									</p:selectOneMenu>
+									<p:inputText type="text" placeholder="Informe"
+										value="#{produtoController.entity.unidade.qtd}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-12">
 									<p:outputLabel for="descricao" value="Descrição" />
-									<p:inputTextarea rows="6" cols="20" id="descricao" type="text"
-										value="#{produtoController.entity.descricao}" />
+									<p:inputTextarea rows="3" cols="10" id="descricao" type="text"
+										maxlength="255" value="#{produtoController.entity.descricao}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-3">
@@ -155,16 +167,16 @@
 
 								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel for="preco" value="Preço" />
-									<p:inputNumber id="preco"
+									<p:inputNumber id="preco" placeholder="R$"
 										value="#{produtoController.entity.preco}" symbol="R$"
 										symbolPosition="p" decimalSeparator="," thousandSeparator="." />
 								</div>
-								
+
 								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel for="peso" value="Peso" />
 									<p:inputNumber id="peso"
-										value="#{produtoController.entity.peso}"
-										symbolPosition="p" decimalSeparator="," thousandSeparator="." />
+										value="#{produtoController.entity.peso}" symbolPosition="p"
+										decimalSeparator="," thousandSeparator="." />
 								</div>
 
 								<div class="p-field p-col-12 p-md-3">
@@ -189,7 +201,6 @@
 										value="#{produtoController.entity.lote}" />
 								</div>
 							</div>
-
 						</p:panel>
 					</p:tab>
 
@@ -198,8 +209,9 @@
 						<div class="p-d-flex p-jc-md-end p-mt-2">
 							<p:commandButton value="Salvar" icon="pi pi-save"
 								styleClass="ui-button-success"
-								action="#{produtoController.cadastrar}" update="@form"
-								process="@this" onclick="PF('editar-produto').hide()"
+								action="#{produtoController.incluir}" process="@this"
+								update="@form:dataTable @form:growl"
+								onclick="PF('editar-produto').hide()"
 								oncomplete="PF('wiz').loadStep('tab0', false)" />
 						</div>
 					</p:tab>
@@ -208,16 +220,50 @@
 			</p:dialog>
 
 			<p:dialog id="produto-info-resumo" widgetVar="resumo-produto"
-				modal="true" draggable="false" header="Informações do Produto"
-				showEffect="fade" minHeight="40" width="750">
+				closeOnEscape="true" closable="true" modal="true" draggable="false"
+				header="Informações do Produto" showEffect="fade" minHeight="40"
+				width="750">
 				<h:panelGroup id="confirmar">
 					<components:SummaryProduto />
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:dialog header="Cadastrar Categoria" widgetVar="cadastro-categoria"
-				minHeight="40" width="350" draggable="false" showEffect="fade">
-				<components:DialogCategoria />
+			<p:dialog header="Adicionar Categoria" widgetVar="cadastro-categoria"
+				width="550" draggable="false" showEffect="fade">
+				<p:panel>
+					<div class="ui-fluid p-formgrid p-grid">
+						<div class="p-field p-md-10">
+							<p:outputLabel value="Nome " />
+							<p:inputText id="nome-categoria" type="text"
+								value="#{categoriaController.entity.nome}" />
+							<p:commandButton value="Adicionar" icon="pi pi-save"
+								styleClass="ui-button-success"
+								actionListener="#{categoriaController.incluir}"
+								process="@this @this:nome-categoria"
+								update="@form:categoria @form:growl @form:categoria-table" />
+						</div>
+					</div>
+
+					<p:dataTable id="categoria-table" var="categoria"
+						value="#{categoriaController.listaCategoria}">
+						<p:column headerText="Nome">
+							<h:outputText value="#{categoria.nome}" />
+						</p:column>
+						<p:column>
+							<p:commandButton icon="pi pi-pencil"
+								styleClass="edit-button rounded-button ui-button-info p-mr-1"
+								actionListener="#{categoriaController.selecionarItem(categoria)}"
+								process="@this" update="@form:nome-categoria @form:growl">
+							</p:commandButton>
+							<p:commandButton class="ui-button-danger rounded-button"
+								icon="pi pi-trash"
+								action="#{categoriaController.excluir(categoria)}"
+								process="@this"
+								update="@form:categoria-table @form:categoria @form:growl">
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
 			</p:dialog>
 
 		</div>

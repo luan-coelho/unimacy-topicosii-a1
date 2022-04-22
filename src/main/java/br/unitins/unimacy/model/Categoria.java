@@ -29,4 +29,10 @@ public class Categoria extends DefaultEntity{
 	public String toString() {
 		return "Categoria [nome=" + nome + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+	
 }

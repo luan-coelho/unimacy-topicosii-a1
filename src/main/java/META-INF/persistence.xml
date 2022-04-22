@@ -13,8 +13,10 @@
 		<class>br.unitins.unimacy.model.Fornecedor</class>
 		<class>br.unitins.unimacy.model.Pessoa</class>
 		<class>br.unitins.unimacy.model.PessoaFisica</class>
+		<class>br.unitins.unimacy.model.PessoaJuridica</class>
+		<class>br.unitins.unimacy.model.Produto</class>
 		<class>br.unitins.unimacy.model.Unidade</class>
-
+		
 		<properties>
 			<!-- DB Driver -->
 			<property name="javax.persistence.jdbc.driver"

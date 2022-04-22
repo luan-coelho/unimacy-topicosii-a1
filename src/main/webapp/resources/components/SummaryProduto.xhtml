@@ -17,13 +17,11 @@
 			</div>
 
 			<div class="p-field p-col-12 p-md-4">
-				<p:selectOneMenu id="categoria" label="Categorias">
-					<f:selectItems value="#{produtoController.entity.categoria}"
-						var="categoria" itemLabel="#{categoria.nome}"
-						itemValue="#{categoria}" itemDisabled="true" />
-				</p:selectOneMenu>
+				<p:outputLabel value="Categoria: " />
+				<h:outputText value="#{produtoController.entity.categoria.nome}"
+					styleClass="outputLabel" />
 			</div>
-			
+
 			<div class="p-field p-col-12 p-md-8">
 				<p:outputLabel value="Descrição: " />
 				<h:outputText value="#{produtoController.entity.descricao}"
@@ -38,7 +36,7 @@
 
 			<div class="p-field p-col-12 p-md-3">
 				<p:outputLabel value="Preço: " />
-				<h:outputText value="#{produtoController.entity.preco}"
+				<h:outputText value="R$#{produtoController.entity.preco}"
 					styleClass="outputLabel" />
 			</div>
 

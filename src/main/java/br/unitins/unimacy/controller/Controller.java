@@ -51,10 +51,13 @@ public abstract class Controller <T extends DefaultEntity> implements Serializab
 			Util.addErrorMessage(e.getMessage());
 		}
 	}
-
 	
 	public void limpar() {
 		entity = null;
+	}
+	
+	public void selecionarItem(T obj) {
+		this.entity = obj;
 	}
 	
 	public Repository<T> getRepository() {

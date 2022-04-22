@@ -1,22 +1,21 @@
 package br.unitins.unimacy.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import br.unitins.unimacy.model.Categoria;
+import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.Produto;
+import br.unitins.unimacy.model.UnidadeMedida;
 import br.unitins.unimacy.repository.ProdutoRepository;
 
 @Named
 @ViewScoped
 public class ProdutoController extends Controller<Produto> {
 
-	private static final long serialVersionUID = -2587172429280470098L;
-
+	private static final long serialVersionUID = -1330527356831135672L;
+	
 	private List<Produto> listaProduto;
 
 	public ProdutoController() {
@@ -34,8 +33,11 @@ public class ProdutoController extends Controller<Produto> {
 
 	public List<Produto> getListaProduto() {
 		if (listaProduto == null) {
-			listaProduto = new ArrayList<>();
-			listaProduto.add(new Produto(Arrays.asList(new Categoria("Saúde"))));
+			try {
+				listaProduto = getRepository().findAll();
+			} catch (RepositoryException e) {
+				e.printStackTrace();
+			}
 		}
 		return listaProduto;
 	}
@@ -44,25 +46,28 @@ public class ProdutoController extends Controller<Produto> {
 		this.listaProduto = listaProduto;
 	}
 
-	public List <Categoria> getListaCategoria() {
-		return Arrays.asList(new Categoria("Genérico"), new Categoria("Saúde"), new Categoria("Medicamentos"), new Categoria("Home Care"));
+	public UnidadeMedida[] getUnidadeMedida() {
+		return UnidadeMedida.values();
 	}
 	
 	@Override
 	public void limpar() {
 		super.limpar();
+		listaProduto = null;
 	}
 
-	public void alterar(Produto Produto) {
-		entity = Produto;
+	public void alterar(Produto produto) {
+		entity = produto;
 
-		System.out.println(entity);
-		// super.alterar();
-	}
-
-	public void cadastrar() {
-		System.out.println(entity.toString());
-		limpar();
+		super.alterar();
 	}
 	
+	public void selecionarItem(Produto produto) {
+		this.entity = produto;
+	}
+	
+	public void excluir(Produto produto) {
+		entity = produto;
+		super.excluir();
+	}
 }

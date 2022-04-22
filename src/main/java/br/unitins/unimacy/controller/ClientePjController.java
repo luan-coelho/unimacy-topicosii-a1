@@ -11,26 +11,23 @@ import com.gtbr.exception.ViaCepFormatException;
 import br.unitins.unimacy.application.ApiCep;
 import br.unitins.unimacy.application.Session;
 import br.unitins.unimacy.application.Util;
+import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.Cidade;
 import br.unitins.unimacy.model.Cliente;
 import br.unitins.unimacy.model.Endereco;
 import br.unitins.unimacy.model.Estado;
-import br.unitins.unimacy.model.PessoaFisica;
 import br.unitins.unimacy.model.PessoaJuridica;
-import br.unitins.unimacy.model.Sexo;
 import br.unitins.unimacy.repository.ClienteRepository;
 
 @Named
 @ViewScoped
-public class ClienteController extends Controller<Cliente> {
+public class ClientePjController extends Controller<Cliente> {
 
-	private static final long serialVersionUID = -2587172429280470098L;
-
-	private boolean isPessoaJuridica;
-
+	private static final long serialVersionUID = -487713909405950715L;
+	
 	private List<Cliente> listaCliente;
 
-	public ClienteController() {
+	public ClientePjController() {
 		super(new ClienteRepository());
 	}
 
@@ -38,33 +35,24 @@ public class ClienteController extends Controller<Cliente> {
 	public Cliente getEntity() {
 		if (entity == null) {
 			entity = new Cliente();
-			if (isPessoaJuridica) {
-				entity.setPessoa(new PessoaJuridica());
-			} else {
-				entity.setPessoa(new PessoaFisica());
-			}
-
+			entity.setPessoa(new PessoaJuridica());
 			entity.setEndereco(new Endereco(new Cidade(new Estado())));
 		}
 
 		return entity;
-	}
 
-	public Sexo[] getListaSexo() {
-		return Sexo.values();
-	}
-
-	public boolean getPessoaJuridica() {
-		return isPessoaJuridica;
-	}
-
-	public void setPessoaJuridica(boolean isPessoaJuridica) {
-		this.isPessoaJuridica = isPessoaJuridica;
 	}
 
 	public List<Cliente> getListaCliente() {
 		if (listaCliente == null) {
-			listaCliente = Cliente.cargaCliente();
+			try {
+				listaCliente = getRepository().findAll()
+						.stream()
+						.filter(cliente -> cliente.getPessoa() instanceof PessoaJuridica).toList();
+			} catch (RepositoryException e) {
+				Util.addErrorMessage("Falha ao buscar os dados no banco");
+				e.printStackTrace();
+			}
 		}
 		return listaCliente;
 	}
@@ -76,6 +64,12 @@ public class ClienteController extends Controller<Cliente> {
 	@Override
 	public void limpar() {
 		super.limpar();
+		listaCliente = null;
+	}
+	
+	public void excluir(Cliente cliente) {
+		entity = cliente;
+		super.excluir();
 	}
 
 	public void buscarCep() {
@@ -90,28 +84,16 @@ public class ClienteController extends Controller<Cliente> {
 		}
 
 	}
-	
+
 	public void onItemSelect() {
 		String nomeEstado = entity.getEndereco().getCidade().getEstado().getNome();
 
 		Session.getInstance().set("nome-estado", nomeEstado);
 	}
 
-	
 	public void alterar(Cliente cliente) {
 		entity = cliente;
 
-		if(cliente.getPessoa() instanceof PessoaJuridica) {
-			System.out.println("Pessoa Juridica");
-			isPessoaJuridica = true;
-		}
-		System.out.println(entity);
-		// super.alterar();
+		super.alterar();
 	}
-
-	public void cadastrar() {
-		System.out.println(entity.toString());
-		limpar();
-	}
-	
 }

@@ -41,4 +41,5 @@ public class DefaultEntity implements Serializable {
 		DefaultEntity other = (DefaultEntity) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 }

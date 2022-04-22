@@ -1,7 +1,7 @@
 package br.unitins.unimacy.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -10,8 +10,8 @@ public class Cidade extends DefaultEntity {
 	private static final long serialVersionUID = -7088102744416075469L;
 
 	private String nome;
-	@ManyToOne
-	@JoinColumn(name="estado_id")
+	
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Estado estado;
 
 	public Cidade() {

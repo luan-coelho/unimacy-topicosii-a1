@@ -2,9 +2,11 @@ package br.unitins.unimacy.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+@Inheritance(strategy=InheritanceType.JOINED)
 @Entity
 public class Pessoa extends DefaultEntity {
 
@@ -15,9 +17,8 @@ public class Pessoa extends DefaultEntity {
 	private String senha;
 	private String telefone;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "endereco_id")
-	private Endereco endereco = new Endereco(new Cidade(new Estado()));
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;
 	
 	private boolean ativo = true;
 
