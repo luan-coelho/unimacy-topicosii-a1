@@ -1,14 +1,14 @@
 package br.unitins.unimacy.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
+@MappedSuperclass
 @Inheritance(strategy=InheritanceType.JOINED)
-@Entity
-public class Pessoa extends DefaultEntity {
+public abstract class Pessoa extends DefaultEntity {
 
 	private static final long serialVersionUID = 2886589069101743676L;
 
@@ -59,6 +59,8 @@ public class Pessoa extends DefaultEntity {
 	}
 
 	public Endereco getEndereco() {
+		if(endereco == null)
+			endereco = new Endereco(new Cidade(new Estado()));
 		return endereco;
 	}
 

@@ -1,15 +1,15 @@
 package br.unitins.unimacy.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Fornecedor extends DefaultEntity {
 
 	private static final long serialVersionUID = 5302778775042634051L;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	private PessoaJuridica pessoaJuridica;
 
 	public Fornecedor() {
@@ -22,6 +22,8 @@ public class Fornecedor extends DefaultEntity {
 	}
 
 	public PessoaJuridica getPessoaJuridica() {
+		if(pessoaJuridica == null)
+			pessoaJuridica = new PessoaJuridica();
 		return pessoaJuridica;
 	}
 
@@ -32,15 +34,6 @@ public class Fornecedor extends DefaultEntity {
 	
 	@Override
 	public String toString() {
-		return "Fornecedor [pessoaJuridica=" + pessoaJuridica.toString() + "]";
-	}
-
-	public static List <Fornecedor> cargaFornecedor(){
-		List <Fornecedor> listaFornecedor = new ArrayList<>();
-		
-		listaFornecedor.add(new Fornecedor(new PessoaJuridica("33333333334", "Coca-cola","cocacola", "23256")));
-		listaFornecedor.add(new Fornecedor(new PessoaJuridica("33333333334", "Unitins","Unitins", "23256")));
-		
-		return listaFornecedor;
+		return getPessoaJuridica().getNomeFantasia();
 	}
 }

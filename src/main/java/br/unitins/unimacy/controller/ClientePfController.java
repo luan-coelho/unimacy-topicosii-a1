@@ -97,12 +97,16 @@ public class ClientePfController extends Controller<Cliente> {
 	}
 
 	public void alterar(Cliente cliente) {
-		entity = cliente;
-
-		super.alterar();
+		this.entity = cliente;
+		System.out.println(cliente);
+		super.incluir();;
 	}
 	
 	public void pesquisarPorNome(String nome) {
-		((ClienteRepository) getRepository()).findByNome(nome);
+		try {
+			getRepository().findByNome(nome);
+		} catch (RepositoryException e) {
+			e.printStackTrace();
+		}
 	}
 }

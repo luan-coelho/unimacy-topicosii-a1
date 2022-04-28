@@ -34,43 +34,47 @@
 							<p:toolbarGroup align="center">
 								<h2 class="p-mb-2">Gerência de Produtos</h2>
 
-								<p:commandButton value="Cadastrar produto" icon="pi pi-plus"
-									styleClass="ui-button-success" process="@this"
-									actionListener="#{produtoController.limpar}"
+								<p:commandButton value="Cadastrar produto"
+									icon="pi pi-plus" styleClass="ui-button-success"
+									process="@this" actionListener="#{produtoController.limpar}"
 									update="@form:produto" onclick="PF('editar-produto').show()" />
+
+								<div class="ui-inputgroup p-mt-4">
+									<p:inputText id="filtro" value="#{produtoController.pesquisa}"
+										placeholder="Pesquisar por nome..." />
+									<p:commandButton icon="pi pi-search"
+										styleClass="ui-button-warning"
+										actionListener="#{produtoController.pesquisar}"
+										process="@this:filtro @this" update="@form">
+									</p:commandButton>
+								</div>
 							</p:toolbarGroup>
 						</p:toolbar>
 					</div>
 				</f:facet>
 
-				<p:column sortBy="#{produto.nome}" headerText="Nome"
-					filterBy="#{produto.nome}">
+				<p:column sortBy="#{produto.nome}" headerText="Nome">
 					<h:outputText value="#{produto.nome}" />
 				</p:column>
 
-				<p:column sortBy="#{produto.quantEstoque}" headerText="Quantidade"
-					filterBy="#{produto.quantEstoque}">
+				<p:column sortBy="#{produto.quantEstoque}" headerText="Quantidade">
 					<h:outputText value="#{produto.quantEstoque}" />
 				</p:column>
 
-				<p:column sortBy="#{produto.preco}" headerText="Preço"
-					filterBy="#{produto.preco}">
+				<p:column sortBy="#{produto.preco}" headerText="Preço">
 					<h:outputText value="R$#{produto.preco}" />
 				</p:column>
 
-				<p:column sortBy="#{produto.peso}" headerText="Peso"
-					filterBy="#{produto.peso}">
-					<h:outputText value="#{produto.peso}" />
-				</p:column>
-
-				<p:column sortBy="#{produto.categoria}" headerText="Categoria"
-					filterBy="#{produto.categoria}">
+				<p:column sortBy="#{produto.categoria}" headerText="Categoria">
 					<h:outputText value="#{produto.categoria.nome}" />
 				</p:column>
 
-				<p:column sortBy="#{produto.lote}" headerText="Lote"
-					filterBy="#{produto.lote}">
+				<p:column sortBy="#{produto.lote}" headerText="Lote">
 					<h:outputText value="#{produto.lote}" />
+				</p:column>
+
+				<p:column headerText="Fornecedor">
+					<h:outputText value="#{produto.fornecedor}" />
 				</p:column>
 
 				<p:column exportable="false">
@@ -118,6 +122,19 @@
 							<p:messages id="messages" closable="true" />
 
 							<div class="ui-fluid p-formgrid p-grid">
+								<div class="p-field p-col-12 p-md-3">
+									<p:outputLabel value="Fornecedor: " />
+									<h:outputText id="nome-fornecedor"
+										value="#{produtoController.entity.fornecedor}" />
+									<p:commandButton value="Selecionar"
+										actionListener="#{produtoController.abrirFornecedorListing}"
+										process="@this" update="@form:produto">
+										<p:ajax event="dialogReturn"
+											listener="#{produtoController.obterFornecedorListing}"
+											update="@form:produto" />
+									</p:commandButton>
+								</div>
+
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel for="nome" value="Nome" />
 									<p:inputText id="nome" type="text"
@@ -150,12 +167,6 @@
 									</p:selectOneMenu>
 									<p:inputText type="text" placeholder="Informe"
 										value="#{produtoController.entity.unidade.qtd}" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-12">
-									<p:outputLabel for="descricao" value="Descrição" />
-									<p:inputTextarea rows="3" cols="10" id="descricao" type="text"
-										maxlength="255" value="#{produtoController.entity.descricao}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-3">
@@ -192,7 +203,7 @@
 									<p:datePicker id="validade"
 										value="#{produtoController.entity.validade}"
 										monthNavigator="true" pattern="dd/MM/yyyy" mask="99/99/9999"
-										showIcon="true" showButtonBar="true" showOnFocus="false" />
+										showIcon="true" showOnFocus="false" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-4">
@@ -200,6 +211,13 @@
 									<p:inputText id="lote" type="text"
 										value="#{produtoController.entity.lote}" />
 								</div>
+
+								<div class="p-field p-col-12 p-md-12">
+									<p:outputLabel for="descricao" value="Descrição" />
+									<p:inputTextarea rows="3" cols="10" id="descricao" type="text"
+										maxlength="255" value="#{produtoController.entity.descricao}" />
+								</div>
+
 							</div>
 						</p:panel>
 					</p:tab>
@@ -230,7 +248,7 @@
 
 			<p:dialog header="Adicionar Categoria" widgetVar="cadastro-categoria"
 				width="550" draggable="false" showEffect="fade">
-				<p:panel>
+				<p:panel id="cadastro-categoria">
 					<div class="ui-fluid p-formgrid p-grid">
 						<div class="p-field p-md-10">
 							<p:outputLabel value="Nome " />
@@ -240,7 +258,7 @@
 								styleClass="ui-button-success"
 								actionListener="#{categoriaController.incluir}"
 								process="@this @this:nome-categoria"
-								update="@form:categoria @form:growl @form:categoria-table" />
+								update="@form:categoria @form:growl @form:cadastro-categoria" />
 						</div>
 					</div>
 
@@ -265,7 +283,6 @@
 					</p:dataTable>
 				</p:panel>
 			</p:dialog>
-
 		</div>
 
 	</ui:define>

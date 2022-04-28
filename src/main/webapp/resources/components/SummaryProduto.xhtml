@@ -10,7 +10,7 @@
 <composite:implementation>
 	<p:panel id="confirmar" header="Revise os dados">
 		<div class="ui-fluid p-formgrid p-grid">
-			<div class="p-field p-col-12 p-md-5">
+			<div class="p-field p-col-12 p-md-4">
 				<p:outputLabel value="Nome: " />
 				<h:outputText value="#{produtoController.entity.nome}"
 					styleClass="outputLabel" />
@@ -21,8 +21,14 @@
 				<h:outputText value="#{produtoController.entity.categoria.nome}"
 					styleClass="outputLabel" />
 			</div>
+			
+			<div class="p-field p-col-12 p-md-4">
+				<p:outputLabel value="Fornecedor: " />
+				<h:outputText value="#{produtoController.entity.fornecedor}"
+					styleClass="outputLabel" />
+			</div>
 
-			<div class="p-field p-col-12 p-md-8">
+			<div class="p-field p-col-12 p-md-4">
 				<p:outputLabel value="Descrição: " />
 				<h:outputText value="#{produtoController.entity.descricao}"
 					styleClass="outputLabel" />

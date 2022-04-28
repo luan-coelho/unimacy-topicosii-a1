@@ -5,16 +5,16 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.primefaces.event.SelectEvent;
+
 import com.gtbr.exception.ViaCepException;
 import com.gtbr.exception.ViaCepFormatException;
 
 import br.unitins.unimacy.application.ApiCep;
 import br.unitins.unimacy.application.Session;
 import br.unitins.unimacy.application.Util;
+import br.unitins.unimacy.controller.listing.FornecedorListing;
 import br.unitins.unimacy.exception.RepositoryException;
-import br.unitins.unimacy.model.Cidade;
-import br.unitins.unimacy.model.Endereco;
-import br.unitins.unimacy.model.Estado;
 import br.unitins.unimacy.model.Fornecedor;
 import br.unitins.unimacy.model.PessoaJuridica;
 import br.unitins.unimacy.repository.FornecedorRepository;
@@ -35,7 +35,6 @@ public class FornecedorController extends Controller<Fornecedor> {
 	public Fornecedor getEntity() {
 		if (entity == null) {
 			entity = new Fornecedor(new PessoaJuridica());
-			entity.getPessoaJuridica().setEndereco(new Endereco(new Cidade(new Estado())));
 		}
 
 		return entity;
@@ -90,6 +89,15 @@ public class FornecedorController extends Controller<Fornecedor> {
 	public void excluir(Fornecedor fornecedor) {
 		this.entity = fornecedor;
 		super.excluir();
+	}
+	
+	public void abrirFornecedorListing() {
+		FornecedorListing listing = new FornecedorListing();
+		listing.open();
+	}
+	
+	public void obterFornecedorListing(SelectEvent<Fornecedor> event) {
+		setEntity(event.getObject());
 	}
 	
 }

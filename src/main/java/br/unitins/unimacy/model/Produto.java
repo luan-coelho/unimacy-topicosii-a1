@@ -3,6 +3,7 @@ package br.unitins.unimacy.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -11,18 +12,38 @@ public class Produto extends DefaultEntity {
 
 	private static final long serialVersionUID = 8466588015114273678L;
 
+//	@NotBlank(message = "Informe o nome")
 	private String nome;
 	private String descricao;
-	private Integer quantEstoque;
-	private BigDecimal preco;
-	private Double peso;
-	private LocalDate validade;
-	private LocalDate fabricacao;
-	private String lote;
 	
+	//@NotNull(message = "Informe a quantidade em estoque")
+	private Integer quantEstoque;
+	
+//	@NotNull(message = "Informe o preço unitário")
+	private BigDecimal preco;
+	
+	//@NotNull(message = "Informe o peso")
+	private Double peso;
+	
+//	@NotNull(message = "Informe a data de validade")
+	private LocalDate validade;
+	
+//	@NotNull(message = "Informe a data de fabricação")
+//	@Past(message = "Informe uma data de fabricação anterior ao dia de hoje")
+	private LocalDate fabricacao;
+	
+//	@NotBlank(message = "Informe o lote")
+	private String lote;
+
+//	@NotNull(message = "Informe a categoria")
 	@ManyToOne
 	private Categoria categoria;
+
+//	@NotNull(message = "Informe a unidade")
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Unidade unidade;
+	
+	@ManyToOne
 	private Fornecedor fornecedor;
 
 	public Produto() {
@@ -124,7 +145,7 @@ public class Produto extends DefaultEntity {
 	}
 
 	public Unidade getUnidade() {
-		if(unidade == null) {
+		if (unidade == null) {
 			unidade = new Unidade();
 		}
 		return unidade;

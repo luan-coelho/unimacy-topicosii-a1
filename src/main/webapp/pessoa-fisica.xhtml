@@ -22,10 +22,10 @@
 
 		<div class="p-d-flex p-jc-center">
 			<p:dataTable id="dataTable" var="cliente" style="width: 80%;"
-				value="#{clientePfController.listaCliente}" paginator="true" rows="10"
-				styleClass="products-table p-mt-5 p-mb-5" rowSelectMode="add"
-				paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
-				stickyTopAt=".layout-topbar" stripedRows="true">
+				value="#{clientePfController.listaCliente}" paginator="true"
+				rows="10" styleClass="products-table p-mt-5 p-mb-5"
+				rowSelectMode="add" paginatorPosition="bottom" allowUnsorting="true"
+				sortMode="single" stickyTopAt=".layout-topbar" stripedRows="true">
 
 				<f:facet name="header">
 					<div class="products-table-header">
@@ -38,8 +38,8 @@
 									styleClass="ui-button-success"
 									onclick="PF('editar-cliente').show()">
 
-									<p:ajax listener="#{clientePfController.limpar}" process="@this"
-										update="@form:pessoa" />
+									<p:ajax listener="#{clientePfController.limpar}"
+										process="@this" update="@form:pessoa" />
 								</p:commandButton>
 							</p:toolbarGroup>
 						</p:toolbar>
@@ -60,25 +60,27 @@
 				<p:column sortBy="#{cliente.pessoa.ativo}" headerText="Ativo">
 					<p:toggleSwitch value="#{cliente.pessoa.ativo}">
 						<p:ajax listener="#{clientePfController.alterar(cliente)}"
-							process="@this" update="@form:dataTable" />
+							process="@this" update="@form" />
 					</p:toggleSwitch>
 				</p:column>
+				
 				<p:column exportable="false">
 					<p:commandButton icon="pi pi-search"
 						styleClass="edit-button rounded-button ui-button-help p-mr-1"
 						onclick="PF('resumo-cliente').show()">
 						<p:ajax process="@this" update="@form:confirmar"
-							listener="#{clientePfController.selecionar(cliente)}" />
+							listener="#{clientePfController.selecionarItem(cliente)}" />
 					</p:commandButton>
 					<p:commandButton icon="pi pi-pencil"
 						onclick="PF('editar-cliente').show()"
 						styleClass="edit-button rounded-button ui-button-info p-mr-1">
 						<p:ajax process="@this" update="@form:pessoa"
-							listener="#{clientePfController.alterar(cliente)}" />
+							listener="#{clientePfController.selecionarItem(cliente)}" />
 					</p:commandButton>
 					<p:commandButton class="ui-button-danger rounded-button"
-						icon="pi pi-trash" action="#{clientePfController.excluir(cliente)}"
-						process="@this" update="@form:dataTable">
+						icon="pi pi-trash"
+						action="#{clientePfController.excluir(cliente)}" process="@this"
+						update="@form:dataTable">
 						<p:confirm header="Você tem certeza?"
 							message="O registro deste cliente será excluído definitivamente"
 							icon="pi pi-exclamation-triangle" />
@@ -165,8 +167,9 @@
 									<p:outputLabel value="CEP " />
 									<p:inputMask mask="99999-999" id="cep" maxlength="9"
 										value="#{clientePfController.entity.endereco.cep}">
-										<p:ajax listener="#{clientePfController.buscarCep}" event="blur"
-											process="@this @form:cep" update="@form:endereco @form:growl" />
+										<p:ajax listener="#{clientePfController.buscarCep}"
+											event="blur" process="@this @form:cep"
+											update="@form:endereco @form:growl" />
 									</p:inputMask>
 								</div>
 
@@ -224,7 +227,8 @@
 							<p:commandButton value="Salvar" icon="pi pi-save"
 								styleClass="ui-button-success"
 								action="#{clientePfController.incluir}" update="@form"
-								process="@this @form:pessoa" onclick="PF('editar-cliente').hide()"
+								process="@this @form:pessoa"
+								onclick="PF('editar-cliente').hide()"
 								oncomplete="PF('wiz').loadStep('tab0', false)" />
 						</div>
 					</p:tab>

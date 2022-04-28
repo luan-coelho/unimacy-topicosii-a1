@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import br.unitins.unimacy.application.JPAUtil;
 import br.unitins.unimacy.exception.RepositoryException;
@@ -88,6 +89,28 @@ public class Repository<T extends DefaultEntity> {
 			e.printStackTrace();
 			throw new RepositoryException("Erro ao buscar os dados");
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List <T> findByNome(String nome) throws RepositoryException{
+		List <T> lista = null;
+		
+		try {
+			final ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+			Class<T> tClass = (Class<T>) (type).getActualTypeArguments()[0];
+			
+			Query query = getEntityManager().createQuery("Select o FROM "+ tClass.getSimpleName() +" o WHERE LOWER(o.nome) LIKE LOWER(:nome)");
+			query.setParameter("nome", "%" + nome + "%");
+
+			lista = query.getResultList();
+
+		} catch (Exception e) {
+			System.out.println("Erro ao executar o método de find.");
+			e.printStackTrace();
+			return null;
+		}
+
+		return lista;
 	}
 
 	@SuppressWarnings("unchecked")

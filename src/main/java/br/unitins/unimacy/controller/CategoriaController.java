@@ -18,17 +18,17 @@ public class CategoriaController extends Controller<Categoria> {
 	public CategoriaController() {
 		super(new CategoriaRepository());
 	}
-	
-	public List <Categoria> getListaCategoria() {
-		List <Categoria> listaCategoria = null;
-		
+
+	public List<Categoria> getListaCategoria() {
+		List<Categoria> listaCategoria = null;
+
 		try {
 			listaCategoria = getRepository().findAll();
 		} catch (RepositoryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return listaCategoria;
 	}
 
@@ -40,13 +40,12 @@ public class CategoriaController extends Controller<Categoria> {
 
 		return entity;
 	}
-	
+
 	public void excluir(Categoria categoria) {
 		entity = categoria;
-		System.out.println(entity);
 		super.excluir();
 	}
-	
+
 	public void selecionarItem(Categoria categoria) {
 		this.entity = categoria;
 	}

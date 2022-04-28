@@ -66,8 +66,9 @@ public abstract class Controller <T extends DefaultEntity> implements Serializab
 	
 	public abstract T getEntity();
 	
-	public void setEntity(T entity) {
-		this.entity = entity;
+	@SuppressWarnings("unchecked")
+	public void setEntity(Object obj) {
+		this.entity = (T) obj;
 	}
 
 }

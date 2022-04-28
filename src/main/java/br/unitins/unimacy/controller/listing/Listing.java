@@ -30,7 +30,7 @@ public abstract class Listing<T extends DefaultEntity> implements Serializable {
 		options.put("modal", true);
 		options.put("draggable", false);
 		options.put("resizable", true);
-		options.put("width", "80%");
+		options.put("width", "50%");
 		options.put("height", "60%");
 		options.put("contentWidth", "100%");
 		options.put("contentHeight", "100%");
@@ -45,6 +45,8 @@ public abstract class Listing<T extends DefaultEntity> implements Serializable {
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}
+		
+		
 		PrimeFaces.current().dialog().closeDynamic(obj);
 	}
 	
