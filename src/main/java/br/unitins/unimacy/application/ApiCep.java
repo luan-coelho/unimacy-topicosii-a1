@@ -21,6 +21,7 @@ import br.unitins.unimacy.model.Estado;
 import br.unitins.unimacy.model.api.aux.CidadeAux;
 import br.unitins.unimacy.model.api.aux.EnderecoAux;
 import br.unitins.unimacy.model.api.aux.EstadoAux;
+import br.unitins.unimacy.repository.CidadeRepository;
 
 public class ApiCep {
 
@@ -51,15 +52,25 @@ public class ApiCep {
 	}
 
 	private static Endereco organizarCep(EnderecoAux enderecoAux, EstadoAux estadoAux) {
+		CidadeRepository repo = new CidadeRepository();
+		
+		
 		Endereco endereco = new Endereco(new Cidade(new Estado()));
 
 		endereco.setCep(enderecoAux.getCep());
 		endereco.setRua(enderecoAux.getLogradouro());
 		endereco.setBairro(enderecoAux.getBairro());
 
-		endereco.getCidade().setNome(enderecoAux.getLocalidade());
-		endereco.getCidade().getEstado().setNome(estadoAux.getNome());
-		endereco.getCidade().getEstado().setUf(enderecoAux.getUf());
+		Cidade cidade = repo.findOneResultByNome(enderecoAux.getLocalidade(), estadoAux.getNome());
+		if(cidade == null) {
+			endereco.getCidade().setNome(enderecoAux.getLocalidade());
+			endereco.getCidade().getEstado().setNome(estadoAux.getNome());
+			endereco.getCidade().getEstado().setUf(enderecoAux.getUf());
+			
+			return endereco;
+		}
+		
+		endereco.setCidade(cidade);
 
 		return endereco;
 	}

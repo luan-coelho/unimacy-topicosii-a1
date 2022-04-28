@@ -128,7 +128,7 @@
 										value="#{produtoController.entity.fornecedor}" />
 									<p:commandButton value="Selecionar"
 										actionListener="#{produtoController.abrirFornecedorListing}"
-										process="@this" update="@form:produto">
+										process="@this" update="@form:produto" styleClass="ui-button-warning">
 										<p:ajax event="dialogReturn"
 											listener="#{produtoController.obterFornecedorListing}"
 											update="@form:produto" />

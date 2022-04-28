@@ -11,7 +11,7 @@ public class Cidade extends DefaultEntity {
 
 	private String nome;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Estado estado;
 
 	public Cidade() {

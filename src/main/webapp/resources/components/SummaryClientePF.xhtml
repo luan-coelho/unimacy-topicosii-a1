@@ -39,7 +39,7 @@
 
 			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Email: " />
-				<h:outputText value="#{clientePfController.entity.email}"
+				<h:outputText value="#{clientePfController.entity.pessoa.email}"
 					styleClass="outputLabel" />
 			</div>
 
@@ -55,28 +55,28 @@
 
 			<div class="p-field p-col-12 p-md-3">
 				<p:outputLabel value="CEP: " />
-				<h:outputText value="#{clientePfController.entity.endereco.cep}"
+				<h:outputText value="#{clientePfController.entity.pessoa.endereco.cep}"
 					styleClass="outputLabel" />
 			</div>
 			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Rua: " />
-				<h:outputText value="#{clientePfController.entity.endereco.rua}"
+				<h:outputText value="#{clientePfController.entity.pessoa.endereco.rua}"
 					styleClass="outputLabel" />
 			</div>
 			<div class="p-field p-col-12 p-md-2">
 				<p:outputLabel value="Número: " />
-				<h:outputText value="#{clientePfController.entity.endereco.numero}"
+				<h:outputText value="#{clientePfController.entity.pessoa.endereco.numero}"
 					styleClass="outputLabel" />
 			</div>
 			<div class="p-field p-col-12 p-md-4">
 				<p:outputLabel value="Bairro: " />
-				<h:outputText value="#{clientePfController.entity.endereco.bairro}"
+				<h:outputText value="#{clientePfController.entity.pessoa.endereco.bairro}"
 					styleClass="outputLabel" />
 			</div>
 			<div class="p-field p-col-12 p-md-6">
 				<p:outputLabel value="Cidade: " />
 				<h:outputText
-					value="#{clientePfController.entity.endereco.cidade.nome}-#{clientePfController.entity.endereco.cidade.estado.nome}"
+					value="#{clientePfController.entity.pessoa.endereco.cidade.nome}-#{clientePfController.entity.pessoa.endereco.cidade.estado.nome}"
 					styleClass="outputLabel" />
 			</div>
 		</div>

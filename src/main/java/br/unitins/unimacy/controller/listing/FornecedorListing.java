@@ -24,7 +24,7 @@ public class FornecedorListing extends Listing<Fornecedor> {
 	public void pesquisar() {
 		FornecedorRepository repo = new FornecedorRepository();
 		try {
-			setList(repo.findAll());
+			setList(repo.findByNome(filtro));
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 			Util.addErrorMessage("Problema ao realizar a consulta.");

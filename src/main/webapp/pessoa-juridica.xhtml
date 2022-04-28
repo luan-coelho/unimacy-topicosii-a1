@@ -47,13 +47,11 @@
 				</f:facet>
 
 				<p:column sortBy="#{cliente.pessoa.nomeFantasia}"
-					headerText="Nome Fantasia"
-					filterBy="#{cliente.pessoa.nomeFantasia}">
+					headerText="Nome Fantasia">
 					<h:outputText value="#{cliente.pessoa.nomeFantasia.trim()}" />
 				</p:column>
 
-				<p:column sortBy="#{cliente.pessoa.cnpj}" headerText="CNPJ"
-					filterBy="#{cliente.pessoa.cnpj}">
+				<p:column sortBy="#{cliente.pessoa.cnpj}" headerText="CNPJ">
 					<h:outputText value="#{cliente.pessoa.cnpj}" />
 				</p:column>
 

@@ -46,14 +46,12 @@
 					</div>
 				</f:facet>
 
-				<p:column sortBy="#{cliente.pessoa.nome}" headerText="Nome Completo"
-					filterBy="#{cliente.pessoa.nome}">
+				<p:column sortBy="#{cliente.pessoa.nome}" headerText="Nome Completo">
 					<h:outputText
 						value="#{cliente.pessoa.nome.trim()} #{cliente.pessoa.sobreNome.trim()}" />
 				</p:column>
 
-				<p:column sortBy="#{cliente.pessoa.cpf}" headerText="CPF"
-					filterBy="#{cliente.pessoa.cpf}">
+				<p:column sortBy="#{cliente.pessoa.cpf}" headerText="CPF">
 					<h:outputText value="#{cliente.pessoa.cpf}" />
 				</p:column>
 
@@ -146,7 +144,7 @@
 
 								<div class="p-field p-col-12 p-md-6">
 									<p:outputLabel for="email" value="Email" />
-									<p:inputText value="#{clientePfController.entity.email}"
+									<p:inputText value="#{clientePfController.entity.pessoa.email}"
 										placeholder="exemplo@email.com" id="email" type="email" />
 								</div>
 
@@ -166,7 +164,7 @@
 								<div class="p-field p-col-12 p-md-2">
 									<p:outputLabel value="CEP " />
 									<p:inputMask mask="99999-999" id="cep" maxlength="9"
-										value="#{clientePfController.entity.endereco.cep}">
+										value="#{clientePfController.entity.pessoa.endereco.cep}">
 										<p:ajax listener="#{clientePfController.buscarCep}"
 											event="blur" process="@this @form:cep"
 											update="@form:endereco @form:growl" />
@@ -176,31 +174,31 @@
 								<div class="p-field p-col-12 p-md-6">
 									<p:outputLabel value="Rua" />
 									<p:inputText id="rua"
-										value="#{clientePfController.entity.endereco.rua}" />
+										value="#{clientePfController.entity.pessoa.endereco.rua}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-2">
 									<p:outputLabel value="Número" />
 									<p:inputText id="numero"
-										value="#{clientePfController.entity.endereco.numero}" />
+										value="#{clientePfController.entity.pessoa.endereco.numero}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel value="Bairro" />
 									<p:inputText id="bairro"
-										value="#{clientePfController.entity.endereco.bairro}" />
+										value="#{clientePfController.entity.pessoa.endereco.bairro}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel value="Complemento" />
 									<p:inputText id="complemento"
-										value="#{clientePfController.entity.endereco.complemento}" />
+										value="#{clientePfController.entity.pessoa.endereco.complemento}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel value="Estado" />
 									<p:autoComplete id="estado"
-										value="#{clientePfController.entity.endereco.cidade.estado.nome}"
+										value="#{clientePfController.entity.pessoa.endereco.cidade.estado.nome}"
 										completeMethod="#{estadoUtil.completeText}" scrollHeight="250"
 										placeholder="Digite o Estado" forceSelection="true">
 
@@ -213,10 +211,10 @@
 								<div class="p-field p-col-12 p-md-4">
 									<p:outputLabel value="Cidade " />
 									<p:autoComplete id="cidade"
-										value="#{clientePfController.entity.endereco.cidade.nome}"
+										value="#{clientePfController.entity.pessoa.endereco.cidade.nome}"
 										completeMethod="#{cidadeUtil.completeText}" scrollHeight="250"
 										placeholder="Digite a Cidade"
-										disabled="#{clientePfController.entity.endereco.cidade.estado.nome == null}" />
+										disabled="#{clientePfController.entity.pessoa.endereco.cidade.estado.nome == null}" />
 								</div>
 							</div>
 						</p:panel>

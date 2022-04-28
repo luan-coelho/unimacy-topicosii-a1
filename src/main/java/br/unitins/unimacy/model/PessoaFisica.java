@@ -2,6 +2,7 @@ package br.unitins.unimacy.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -14,6 +15,7 @@ public class PessoaFisica extends Pessoa {
 	private Sexo sexo;
 
 	// @CPF(message = "Informe um CPF válido")
+	@Column(unique = true)
 	private String cpf;
 	private LocalDate dataNascimento;
 

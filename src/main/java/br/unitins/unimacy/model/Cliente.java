@@ -1,12 +1,15 @@
 package br.unitins.unimacy.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Cliente extends Pessoa {
+public class Cliente extends DefaultEntity{
 
-	private static final long serialVersionUID = 3809727639444385556L;
-
+	private static final long serialVersionUID = -7687261267452454591L;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Pessoa pessoa;
 
 	public Cliente() {
@@ -18,11 +21,6 @@ public class Cliente extends Pessoa {
 		this.pessoa = pessoa;
 	}
 	
-	public Cliente(Pessoa pessoa, Endereco endereco) {
-		super(endereco);
-		this.pessoa = pessoa;
-	}
-
 	public Pessoa getPessoa() {
 		return pessoa;
 	}

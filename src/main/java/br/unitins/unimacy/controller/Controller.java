@@ -41,6 +41,11 @@ public abstract class Controller <T extends DefaultEntity> implements Serializab
 		}
 	}
 	
+	public void alterar(T obj) {
+		this.entity = obj;
+		alterar();
+	}
+	
 	public void excluir() {
 		try {
 			getRepository().remove(getEntity());

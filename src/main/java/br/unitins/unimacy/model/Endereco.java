@@ -15,7 +15,7 @@ public class Endereco extends DefaultEntity {
 	private String complemento;
 	private String cep;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Cidade cidade;
 
 	public Endereco() {

@@ -37,11 +37,10 @@ public class ClientePfController extends Controller<Cliente> {
 		if (entity == null) {
 			entity = new Cliente();
 			entity.setPessoa(new PessoaFisica());
-			entity.setEndereco(new Endereco(new Cidade(new Estado())));
+			entity.getPessoa().setEndereco(new Endereco(new Cidade(new Estado())));
 		}
 
 		return entity;
-
 	}
 
 	public Sexo[] getListaSexo() {
@@ -79,7 +78,7 @@ public class ClientePfController extends Controller<Cliente> {
 
 	public void buscarCep() {
 		try {
-			entity.setEndereco(ApiCep.findCep(entity.getEndereco().getCep()));
+			entity.getPessoa().setEndereco(ApiCep.findCep(entity.getPessoa().getEndereco().getCep()));
 		} catch (ViaCepException e) {
 			Util.addErrorMessage("Informe um CEP válido");
 		} catch (ViaCepFormatException e) {
@@ -91,17 +90,10 @@ public class ClientePfController extends Controller<Cliente> {
 	}
 
 	public void onItemSelect() {
-		String nomeEstado = entity.getEndereco().getCidade().getEstado().getNome();
-
+		String nomeEstado = entity.getPessoa().getEndereco().getCidade().getEstado().getNome();
 		Session.getInstance().set("nome-estado", nomeEstado);
 	}
 
-	public void alterar(Cliente cliente) {
-		this.entity = cliente;
-		System.out.println(cliente);
-		super.incluir();;
-	}
-	
 	public void pesquisarPorNome(String nome) {
 		try {
 			getRepository().findByNome(nome);
