@@ -67,13 +67,13 @@
 						styleClass="edit-button rounded-button ui-button-help p-mr-1"
 						onclick="PF('resumo-cliente').show()">
 						<p:ajax process="@this" update="@form:confirmar"
-							listener="#{clientePjController.alterar(cliente)}" />
+							listener="#{clientePjController.selecionarItem(cliente)}" />
 					</p:commandButton>
 					<p:commandButton icon="pi pi-pencil"
 						onclick="PF('editar-cliente').show()"
 						styleClass="edit-button rounded-button ui-button-info p-mr-1">
 						<p:ajax process="@this" update="@form:pessoa"
-							listener="#{clientePjController.alterar(cliente)}" />
+							listener="#{clientePjController.selecionarItem(cliente)}" />
 					</p:commandButton>
 					<p:commandButton class="ui-button-danger rounded-button"
 						icon="pi pi-trash"
@@ -125,7 +125,7 @@
 
 								<div class="p-field p-col-12 p-md-6">
 									<p:outputLabel for="email" value="Email" />
-									<p:inputText value="#{clientePjController.entity.email}"
+									<p:inputText value="#{clientePjController.entity.pessoa.email}"
 										placeholder="exemplo@email.com" id="email" type="email" />
 								</div>
 
@@ -144,7 +144,7 @@
 								<div class="p-field p-col-12 p-md-2">
 									<p:outputLabel value="CEP " />
 									<p:inputMask mask="99999-999" id="cep" maxlength="9"
-										value="#{clientePjController.entity.endereco.cep}">
+										value="#{clientePjController.entity.pessoa.endereco.cep}">
 										<p:ajax listener="#{clientePjController.buscarCep}"
 											event="blur" process="@this @form:cep"
 											update="@form:endereco @form:growl" />
@@ -154,31 +154,31 @@
 								<div class="p-field p-col-12 p-md-6">
 									<p:outputLabel value="Rua" />
 									<p:inputText id="rua"
-										value="#{clientePjController.entity.endereco.rua}" />
+										value="#{clientePjController.entity.pessoa.endereco.rua}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-2">
 									<p:outputLabel value="Número" />
 									<p:inputText id="numero"
-										value="#{clientePjController.entity.endereco.numero}" />
+										value="#{clientePjController.entity.pessoa.endereco.numero}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-3">
 									<p:outputLabel value="Bairro" />
 									<p:inputText id="bairro"
-										value="#{clientePjController.entity.endereco.bairro}" />
+										value="#{clientePjController.entity.pessoa.endereco.bairro}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel value="Complemento" />
 									<p:inputText id="complemento"
-										value="#{clientePjController.entity.endereco.complemento}" />
+										value="#{clientePjController.entity.pessoa.endereco.complemento}" />
 								</div>
 
 								<div class="p-field p-col-12 p-md-5">
 									<p:outputLabel value="Estado" />
 									<p:autoComplete id="estado"
-										value="#{clientePjController.entity.endereco.cidade.estado.nome}"
+										value="#{clientePjController.entity.pessoa.endereco.cidade.estado.nome}"
 										completeMethod="#{estadoUtil.completeText}" scrollHeight="250"
 										placeholder="Digite o Estado" forceSelection="true">
 
@@ -191,10 +191,10 @@
 								<div class="p-field p-col-12 p-md-4">
 									<p:outputLabel value="Cidade " />
 									<p:autoComplete id="cidade"
-										value="#{clientePjController.entity.endereco.cidade.nome}"
+										value="#{clientePjController.entity.pessoa.endereco.cidade.nome}"
 										completeMethod="#{cidadeUtil.completeText}" scrollHeight="250"
 										placeholder="Digite a Cidade"
-										disabled="#{clientePjController.entity.endereco.cidade.estado.nome == null}" />
+										disabled="#{clientePjController.entity.pessoa.endereco.cidade.estado.nome == null}" />
 								</div>
 							</div>
 						</p:panel>

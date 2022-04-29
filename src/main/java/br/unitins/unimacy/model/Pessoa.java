@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -12,7 +13,7 @@ public abstract class Pessoa extends DefaultEntity {
 
 	private static final long serialVersionUID = 2886589069101743676L;
 
-	// @Email(message = "Informe um email válido")
+	@Email(message = "Informe um email válido")
 	private String email;
 	private String telefone;
 

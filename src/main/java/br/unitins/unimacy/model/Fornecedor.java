@@ -22,8 +22,6 @@ public class Fornecedor extends DefaultEntity {
 	}
 
 	public PessoaJuridica getPessoaJuridica() {
-		if(pessoaJuridica == null)
-			pessoaJuridica = new PessoaJuridica();
 		return pessoaJuridica;
 	}
 

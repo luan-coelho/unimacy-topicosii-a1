@@ -11,6 +11,7 @@ import br.unitins.unimacy.application.Util;
 import br.unitins.unimacy.controller.listing.FornecedorListing;
 import br.unitins.unimacy.exception.RepositoryException;
 import br.unitins.unimacy.model.Fornecedor;
+import br.unitins.unimacy.model.PessoaJuridica;
 import br.unitins.unimacy.model.Produto;
 import br.unitins.unimacy.model.UnidadeMedida;
 import br.unitins.unimacy.repository.ProdutoRepository;
@@ -33,7 +34,7 @@ public class ProdutoController extends Controller<Produto> {
 	public Produto getEntity() {
 		if (entity == null) {
 			entity = new Produto();
-			entity.setFornecedor(new Fornecedor());
+			entity.setFornecedor(new Fornecedor(new PessoaJuridica()));
 		}
 
 		return entity;

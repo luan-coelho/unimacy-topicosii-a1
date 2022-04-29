@@ -15,7 +15,7 @@ public class FornecedorRepository extends Repository<Fornecedor> {
 		List <Fornecedor> lista = null;
 		
 		try {
-			Query query = getEntityManager().createQuery("Select o FROM PessoaJuridica o WHERE LOWER(o.nomeFantasia) LIKE LOWER(:nome)");
+			Query query = getEntityManager().createQuery("select f from fornecedor f, pessoajuridica p where LOWER(p.nomefantasia) LIKE LOWER(:nome)");
 			query.setParameter("nome", "%" + nome + "%");
 
 			lista = query.getResultList();

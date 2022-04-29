@@ -53,7 +53,7 @@
 				</p:column>
 
 				<p:column sortBy="#{fornecedor.pessoaJuridica.cnpj}"
-					headerText="CNPJ" >
+					headerText="CNPJ">
 					<h:outputText value="#{fornecedor.pessoaJuridica.cnpj}" />
 				</p:column>
 
@@ -97,7 +97,7 @@
 					update="@form:dataTable"
 					styleClass="ui-confirmdialog-yes ui-button-flat" />
 			</p:confirmDialog>
-			
+
 			<p:dialog id="fornecedor-info" widgetVar="editar-fornecedor"
 				modal="true" onHide="PF('wiz').loadStep('tab0', false)"
 				draggable="false" header="Informações do Fornecedor"
@@ -106,7 +106,9 @@
 				<p:wizard nextLabel="Prosseguir" backLabel="Voltar" widgetVar="wiz">
 					<p:tab id="tab0" title="Informações básicas">
 						<p:panel id="fornecedor">
-
+						
+							<p:messages id="messages" closable="true" />
+							
 							<h:panelGroup layout="block">
 
 								<div class="ui-fluid p-formgrid p-grid">
@@ -127,7 +129,7 @@
 											value="#{fornecedorController.entity.pessoaJuridica.cnpj}"
 											mask="99.999.999/9999-99" id="cnpj" maxlength="18" />
 									</div>
-									
+
 									<div class="p-field p-col-12 p-md-5">
 										<p:outputLabel for="insc-estadual" value="Inscrição Estadual" />
 										<p:inputText id="insc-estadual" type="text"

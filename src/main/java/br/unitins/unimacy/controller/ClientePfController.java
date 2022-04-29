@@ -101,4 +101,13 @@ public class ClientePfController extends Controller<Cliente> {
 			e.printStackTrace();
 		}
 	}
+	
+	public void cpfExiste() {
+		PessoaFisica pessoa = (PessoaFisica) entity.getPessoa();
+		Cliente cliente = ((ClienteRepository) getRepository()).findByCpf(pessoa.getCpf());
+		
+		if(cliente != null) {
+			Util.addErrorMessage("Já existe um cliente cadastrado com esse CPF");
+		}
+	}
 }

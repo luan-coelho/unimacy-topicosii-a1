@@ -1,13 +1,17 @@
 package br.unitins.unimacy.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import org.hibernate.validator.constraints.br.CNPJ;
 
 @Entity
 public class PessoaJuridica extends Pessoa {
 
 	private static final long serialVersionUID = 5775140670357351776L;
 
-	// @CNPJ(message = "Informe um CNPJ válido")
+	@CNPJ(message = "Informe um CNPJ válido")
+	@Column(unique = true)
 	private String cnpj;
 	private String razaoSocial;
 	private String nomeFantasia;

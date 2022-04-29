@@ -6,40 +6,43 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 public class Produto extends DefaultEntity {
 
 	private static final long serialVersionUID = 8466588015114273678L;
 
-//	@NotBlank(message = "Informe o nome")
+	@NotBlank(message = "Informe o nome")
 	private String nome;
 	private String descricao;
 	
-	//@NotNull(message = "Informe a quantidade em estoque")
+	@NotNull(message = "Informe a quantidade em estoque")
 	private Integer quantEstoque;
 	
-//	@NotNull(message = "Informe o preço unitário")
+	@NotNull(message = "Informe o preço unitário")
 	private BigDecimal preco;
 	
-	//@NotNull(message = "Informe o peso")
+	@NotNull(message = "Informe o peso")
 	private Double peso;
 	
-//	@NotNull(message = "Informe a data de validade")
+	@NotNull(message = "Informe a data de validade")
 	private LocalDate validade;
 	
-//	@NotNull(message = "Informe a data de fabricação")
-//	@Past(message = "Informe uma data de fabricação anterior ao dia de hoje")
+	@NotNull(message = "Informe a data de fabricação")
+	@Past(message = "Informe uma data de fabricação anterior ao dia de hoje")
 	private LocalDate fabricacao;
 	
-//	@NotBlank(message = "Informe o lote")
+	@NotBlank(message = "Informe o lote")
 	private String lote;
 
-//	@NotNull(message = "Informe a categoria")
+	@NotNull(message = "Informe a categoria")
 	@ManyToOne
 	private Categoria categoria;
 
-//	@NotNull(message = "Informe a unidade")
+	@NotNull(message = "Informe a unidade")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Unidade unidade;
 	

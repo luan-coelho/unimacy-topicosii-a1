@@ -22,4 +22,20 @@ public class ClienteRepository extends Repository<Cliente> {
 
 		return cliente;
 	}
+	
+//	public boolean cpfExiste(String cpf) {
+//		try {
+//			Query query = getEntityManager().createQuery("Select c FROM PessoaFisica c WHERE c.cpf LIKE :cpf");
+//			query.setParameter("cpf", "%" + cpf + "%");
+//
+//			Cliente cliente = (Cliente) query.getResultList();
+//			return true;
+//
+//		} catch (Exception e) {
+//			System.out.println("Erro ao executar o método de find.");
+//			e.printStackTrace();
+//		}
+//
+//		return false;
+//	}
 }

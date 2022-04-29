@@ -1,5 +1,7 @@
 package br.unitins.unimacy.controller.listing;
 
+import java.util.stream.Collectors;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -24,7 +26,10 @@ public class FornecedorListing extends Listing<Fornecedor> {
 	public void pesquisar() {
 		FornecedorRepository repo = new FornecedorRepository();
 		try {
-			setList(repo.findByNome(filtro));
+			setList(repo.findAll()
+					.stream()
+					.filter(f -> f.getPessoaJuridica().getNomeFantasia().toLowerCase().contains(filtro.toLowerCase()))
+					.collect(Collectors.toList()));
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 			Util.addErrorMessage("Problema ao realizar a consulta.");
@@ -38,11 +43,4 @@ public class FornecedorListing extends Listing<Fornecedor> {
 	public void setFiltro(String filtro) {
 		this.filtro = filtro;
 	}
-	
-	@Override
-	public void open() {
-		// TODO Auto-generated method stub
-		super.open();
-	}
-
 }

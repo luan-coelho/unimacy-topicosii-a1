@@ -58,10 +58,10 @@
 				<p:column sortBy="#{cliente.pessoa.ativo}" headerText="Ativo">
 					<p:toggleSwitch value="#{cliente.pessoa.ativo}">
 						<p:ajax listener="#{clientePfController.alterar(cliente)}"
-							process="@this" update="@form" />
+							process="@this" update="@form:dataTable" />
 					</p:toggleSwitch>
 				</p:column>
-				
+
 				<p:column exportable="false">
 					<p:commandButton icon="pi pi-search"
 						styleClass="edit-button rounded-button ui-button-help p-mr-1"
@@ -121,7 +121,8 @@
 									<p:outputLabel value="CPF" />
 									<p:inputMask mask="999.999.999-99" id="cpf" maxlength="14"
 										value="#{clientePfController.entity.pessoa.cpf}"
-										placeholder="xxx.xxx.xxx-xx" />
+										placeholder="xxx.xxx.xxx-xx">
+									</p:inputMask>
 								</div>
 
 								<div class="p-field p-col-12 p-md-5">
