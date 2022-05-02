@@ -1,14 +1,12 @@
 package br.unitins.unimacy.model;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Categoria extends DefaultEntity{
 	
 	private static final long serialVersionUID = -3189112079821397727L;
 	
-	@NotBlank(message = "Informe o nome da categoria")
 	private String nome;
 	
 	public Categoria() {
@@ -29,7 +27,7 @@ public class Categoria extends DefaultEntity{
 
 	@Override
 	public String toString() {
-		return "Categoria [nome=" + nome + "]";
+		return getNome();
 	}
 	
 	@Override

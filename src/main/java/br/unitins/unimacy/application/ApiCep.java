@@ -35,7 +35,9 @@ public class ApiCep {
 		try {
 			HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofMinutes(1L)).build();
 
-			HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(viaCepUrl + cepString + "/json"))
+			HttpRequest httpRequest = HttpRequest.newBuilder()
+					.GET()
+					.uri(URI.create(viaCepUrl + cepString + "/json"))
 					.build();
 
 			HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());

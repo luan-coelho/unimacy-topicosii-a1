@@ -65,6 +65,9 @@ public abstract class Controller <T extends DefaultEntity> implements Serializab
 		this.entity = obj;
 	}
 	
+	public void editarItem(T obj) {
+	}
+	
 	public Repository<T> getRepository() {
 		return repository;
 	}

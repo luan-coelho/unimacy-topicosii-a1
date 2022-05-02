@@ -20,12 +20,12 @@
 
 		<p:growl id="growl" />
 
-		<div class="p-d-flex p-jc-center">
-			<p:dataTable id="dataTable" var="produto" style="width: 80%;"
+		<div class="p-d-flex p-jc-center p-m-3">
+			<p:dataTable id="dataTable" var="produto"
 				value="#{produtoController.listaProduto}" paginator="true" rows="10"
-				styleClass="products-table p-mt-5 p-mb-5" rowSelectMode="add"
-				paginatorPosition="bottom" allowUnsorting="true" sortMode="single"
-				stickyTopAt=".layout-topbar" stripedRows="true">
+				styleClass="products-table p-mt-5 p-mb-5 shadow-2xl shadow-gray-700 rounded-lg p-5 w-11/12 m-0"
+				rowSelectMode="add" paginatorPosition="bottom" allowUnsorting="true"
+				sortMode="single" stickyTopAt=".layout-topbar" stripedRows="true">
 
 				<f:facet name="header">
 					<div class="products-table-header">
@@ -34,18 +34,21 @@
 							<p:toolbarGroup align="center">
 								<h2 class="p-mb-2">Gerência de Produtos</h2>
 
-								<p:commandButton value="Cadastrar produto"
-									icon="pi pi-plus" styleClass="ui-button-success"
-									process="@this" actionListener="#{produtoController.limpar}"
-									update="@form:produto" onclick="PF('editar-produto').show()" />
+								<p:linkButton value="Cadastrar produto" icon="pi pi-plus"
+									styleClass="ui-button-success" href="produto.xhtml" />
 
-								<div class="ui-inputgroup p-mt-4">
-									<p:inputText id="filtro" value="#{produtoController.pesquisa}"
-										placeholder="Pesquisar por nome..." />
+								<div class="ui-inputgroup mt-4">
+									<p:inputText id="pesquisa" value="#{produtoController.pesquisa}"
+										placeholder="Pesquisar por..." />
+									<p:selectOneMenu id="filtro"
+										value="#{produtoController.filtro}">
+										<f:selectItems value="#{produtoController.filtroProduto}"
+											itemValue="#{filtro}" />
+									</p:selectOneMenu>
 									<p:commandButton icon="pi pi-search"
 										styleClass="ui-button-warning"
 										actionListener="#{produtoController.pesquisar}"
-										process="@this:filtro @this" update="@form">
+										process="pesquisa filtro @this" update="@form">
 									</p:commandButton>
 								</div>
 							</p:toolbarGroup>
@@ -84,11 +87,9 @@
 						<p:ajax process="@this" update="@form:confirmar"
 							listener="#{produtoController.selecionarItem(produto)}" />
 					</p:commandButton>
-					<p:commandButton icon="pi pi-pencil"
-						onclick="PF('editar-produto').show()"
-						styleClass="edit-button rounded-button ui-button-info p-mr-1">
-						<p:ajax process="@this" update="@form:produto"
-							listener="#{produtoController.selecionarItem(produto)}" />
+					<p:commandButton icon="pi pi-pencil" href="produto.xhtml"
+						action="#{produtoController.editarItem(produto)}"
+						styleClass="edit-button rounded-button ui-button-info p-mr-1 p-mb-1">
 					</p:commandButton>
 					<p:commandButton class="ui-button-danger rounded-button"
 						icon="pi pi-trash" action="#{produtoController.excluir(produto)}"
@@ -110,133 +111,6 @@
 					styleClass="ui-confirmdialog-yes ui-button-flat" />
 			</p:confirmDialog>
 
-			<p:dialog id="produto-info" widgetVar="editar-produto" modal="true"
-				onHide="PF('wiz').loadStep('tab0', false)" draggable="false"
-				header="Informações do Produto" showEffect="fade" minHeight="40"
-				width="750">
-
-				<p:wizard nextLabel="Prosseguir" backLabel="Voltar" widgetVar="wiz">
-					<p:tab id="tab0" title="Dados Básicos">
-						<p:panel id="produto">
-
-							<p:messages id="messages" closable="true" />
-
-							<div class="ui-fluid p-formgrid p-grid">
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel value="Fornecedor: " />
-									<h:outputText id="nome-fornecedor"
-										value="#{produtoController.entity.fornecedor}" />
-									<p:commandButton value="Selecionar"
-										actionListener="#{produtoController.abrirFornecedorListing}"
-										process="@this" update="@form:produto" styleClass="ui-button-warning">
-										<p:ajax event="dialogReturn"
-											listener="#{produtoController.obterFornecedorListing}"
-											update="@form:produto" />
-									</p:commandButton>
-								</div>
-
-								<div class="p-field p-col-12 p-md-5">
-									<p:outputLabel for="nome" value="Nome" />
-									<p:inputText id="nome" type="text"
-										value="#{produtoController.entity.nome}" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="categoria" value="Categoria" />
-
-									<p:selectOneMenu id="categoria" filter="true"
-										converter="categoriaConverter"
-										value="#{produtoController.entity.categoria}">
-										<f:selectItems value="#{categoriaController.listaCategoria}"
-											var="categoria" itemLabel="#{categoria.nome}"
-											itemValue="#{categoria}" />
-									</p:selectOneMenu>
-
-									<p:commandButton value="Categoria" type="button"
-										styleClass="ui-confirmdialog-yes" icon="pi pi-plus"
-										onclick="PF('cadastro-categoria').show()" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="unidade" value="Unidade" />
-
-									<p:selectOneMenu id="unidade" filter="true"
-										value="#{produtoController.entity.unidade.unidadeMedida}">
-										<f:selectItems value="#{produtoController.unidadeMedida}"
-											var="unidade" itemLabel="#{unidade}" itemValue="#{unidade}" />
-									</p:selectOneMenu>
-									<p:inputText type="text" placeholder="Informe"
-										value="#{produtoController.entity.unidade.qtd}" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="estoque" value="Quantidade Estoque" />
-									<p:spinner id="estoque"
-										value="#{produtoController.entity.quantEstoque}"
-										buttons="horizontal" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="preco" value="Preço" />
-									<p:inputNumber id="preco" placeholder="R$"
-										value="#{produtoController.entity.preco}" symbol="R$"
-										symbolPosition="p" decimalSeparator="," thousandSeparator="." />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="peso" value="Peso" />
-									<p:inputNumber id="peso"
-										value="#{produtoController.entity.peso}" symbolPosition="p"
-										decimalSeparator="," thousandSeparator="." />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="fabricacao" value="Data de Fabricação" />
-									<p:datePicker id="fabricacao"
-										value="#{produtoController.entity.fabricacao}"
-										monthNavigator="true" pattern="dd/MM/yyyy" mask="99/99/9999"
-										showIcon="true" showButtonBar="true" showOnFocus="false" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-3">
-									<p:outputLabel for="validade" value="Data de Validade" />
-									<p:datePicker id="validade"
-										value="#{produtoController.entity.validade}"
-										monthNavigator="true" pattern="dd/MM/yyyy" mask="99/99/9999"
-										showIcon="true" showOnFocus="false" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-4">
-									<p:outputLabel for="lote" value="Lote" />
-									<p:inputText id="lote" type="text"
-										value="#{produtoController.entity.lote}" />
-								</div>
-
-								<div class="p-field p-col-12 p-md-12">
-									<p:outputLabel for="descricao" value="Descrição" />
-									<p:inputTextarea rows="3" cols="10" id="descricao" type="text"
-										maxlength="255" value="#{produtoController.entity.descricao}" />
-								</div>
-
-							</div>
-						</p:panel>
-					</p:tab>
-
-					<p:tab title="Confirmar Dados">
-						<components:SummaryProduto />
-						<div class="p-d-flex p-jc-md-end p-mt-2">
-							<p:commandButton value="Salvar" icon="pi pi-save"
-								styleClass="ui-button-success"
-								action="#{produtoController.incluir}" process="@this"
-								update="@form:dataTable @form:growl"
-								onclick="PF('editar-produto').hide()"
-								oncomplete="PF('wiz').loadStep('tab0', false)" />
-						</div>
-					</p:tab>
-
-				</p:wizard>
-			</p:dialog>
-
 			<p:dialog id="produto-info-resumo" widgetVar="resumo-produto"
 				closeOnEscape="true" closable="true" modal="true" draggable="false"
 				header="Informações do Produto" showEffect="fade" minHeight="40"
@@ -246,43 +120,6 @@
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:dialog header="Adicionar Categoria" widgetVar="cadastro-categoria"
-				width="550" draggable="false" showEffect="fade">
-				<p:panel id="cadastro-categoria">
-					<div class="ui-fluid p-formgrid p-grid">
-						<div class="p-field p-md-10">
-							<p:outputLabel value="Nome " />
-							<p:inputText id="nome-categoria" type="text"
-								value="#{categoriaController.entity.nome}" />
-							<p:commandButton value="Adicionar" icon="pi pi-save"
-								styleClass="ui-button-success"
-								actionListener="#{categoriaController.incluir}"
-								process="@this @this:nome-categoria"
-								update="@form:categoria @form:growl @form:cadastro-categoria" />
-						</div>
-					</div>
-
-					<p:dataTable id="categoria-table" var="categoria"
-						value="#{categoriaController.listaCategoria}">
-						<p:column headerText="Nome">
-							<h:outputText value="#{categoria.nome}" />
-						</p:column>
-						<p:column>
-							<p:commandButton icon="pi pi-pencil"
-								styleClass="edit-button rounded-button ui-button-info p-mr-1"
-								actionListener="#{categoriaController.selecionarItem(categoria)}"
-								process="@this" update="@form:nome-categoria @form:growl">
-							</p:commandButton>
-							<p:commandButton class="ui-button-danger rounded-button"
-								icon="pi pi-trash"
-								action="#{categoriaController.excluir(categoria)}"
-								process="@this"
-								update="@form:categoria-table @form:categoria @form:growl">
-							</p:commandButton>
-						</p:column>
-					</p:dataTable>
-				</p:panel>
-			</p:dialog>
 		</div>
 
 	</ui:define>

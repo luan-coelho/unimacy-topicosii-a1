@@ -45,7 +45,8 @@ public class Produto extends DefaultEntity {
 	@NotNull(message = "Informe a unidade")
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Unidade unidade;
-	
+
+	@NotNull(message = "Selecione o fornecedor")
 	@ManyToOne
 	private Fornecedor fornecedor;
 

@@ -9,12 +9,13 @@
 	xmlns:components="http://java.sun.com/jsf/composite/components">
 
 <h:head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="author" content="Luan Coêlho" />
+	<h:outputStylesheet library="css" name="sidebar.css" />
 	<h:outputStylesheet library="css" name="template.css" />
-	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputStylesheet library="webjars" name="primeflex/2.0.0/primeflex.min.css" />
+	<h:outputStylesheet library="webjars"
+		name="primeflex/2.0.0/primeflex.min.css" />
 
 	<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'
 		rel='stylesheet' />
@@ -23,18 +24,24 @@
 	</ui:insert>
 </h:head>
 
-<h:body style="background: #E1E1E6;" class="dark">
+<h:body class="dark">
 	<h:form id="form" styleClass="form-menu-bar">
 
-		<components:SideNavBar/>
-		
-		<ui:insert name="conteudo">
+		<div class="wrapper">
+			<div class="box sidebar">
+				<components:SideBar />
+			</div>
+			<div class="box content">
+				<ui:insert name="conteudo">
 
-		</ui:insert>
-
-		<components:Footer/>
-
-		<h:outputScript library="js" name="template.js" />
+				</ui:insert>
+			</div>
+		</div>
+		<div class="box footer">
+			<components:Footer />
+		</div>
 	</h:form>
+
+	<script src="https://cdn.tailwindcss.com"></script>
 </h:body>
 </html>
